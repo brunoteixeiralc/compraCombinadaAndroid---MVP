@@ -1,6 +1,7 @@
 package br.com.compracombinada;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -18,19 +19,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONObject;
+
+import br.com.compracombinada.model.Usuario;
+
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
+    private Fragment fragment;
     private NavigationDrawerFragment mNavigationDrawerFragment;
-
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
     private CharSequence mTitle;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +50,53 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        prefs = MainActivity.this.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        convertJsonStringToArray(prefs.getString("jsonString", null));
+
     }
+
+    private void convertJsonStringToArray(String jsonString){
+
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonObject usuarioJSON = (JsonObject) parser.parse(jsonString);
+        Usuario usuario = new Usuario();
+        usuario = gson.fromJson(usuarioJSON,Usuario.class);
+
+
+
+    }
+
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
+
+        fragment = null;
+        Bundle bundle = new Bundle();
+
+        switch (position) {
+
+            case 0:
+                fragment = new SobreMim();
+                break;
+            case 1:
+                fragment = new Eventos();
+                break;
+            case 2:
+                fragment = new Listas();
+                break;
+            case 3:
+                fragment = new Amizades();
+                break;
+        }
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, fragment)
                 .commit();
+
+
     }
 
     public void onSectionAttached(int number) {
