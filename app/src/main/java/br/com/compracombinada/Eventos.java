@@ -10,6 +10,7 @@ import android.view.ViewGroup;
  */
 public class Eventos extends android.support.v4.app.Fragment {
 
+    private View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
