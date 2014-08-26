@@ -12,20 +12,24 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.compracombinada.adpater.ListAdapterAmizade;
+import br.com.compracombinada.adpater.ListAdapterLista;
+import br.com.compracombinada.adpater.ListAdapterProdutos;
 import br.com.compracombinada.model.Amizade;
+import br.com.compracombinada.model.Lista;
+import br.com.compracombinada.model.Produto;
+import br.com.compracombinada.model.Produtos;
 import br.com.compracombinada.model.Usuario;
 
 /**
  * Created by bruno on 21/08/14.
  */
-public class Amizades extends android.support.v4.app.Fragment {
+public class ListaDetalhe extends android.support.v4.app.Fragment {
 
-    private ListView listView;
     private View view;
-    private ListAdapterAmizade listAdapterAmizade;
-    private Usuario usuario;
-    private List<Amizade> listAmizade;
+    private Lista lista;
+    private ListView listView;
+    private List<Produtos> listProdutos;
+    private ListAdapterProdutos listAdapterProdutos;
     private Fragment fragment;
 
     @Override
@@ -33,10 +37,11 @@ public class Amizades extends android.support.v4.app.Fragment {
 
         view = inflater.inflate(R.layout.list,container,false);
 
-        usuario = (Usuario) getArguments().get("usuario");
+        lista = new Lista();
+        lista = (Lista) getArguments().get("listaDetalhe");
 
-        listAmizade = new ArrayList<Amizade>();
-        listAmizade.addAll(usuario.getAmizades());
+        listProdutos = new ArrayList<Produtos>();
+        listProdutos.addAll(lista.getProdutos());
 
         listView = (ListView) view.findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -44,8 +49,8 @@ public class Amizades extends android.support.v4.app.Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("amizade",(Amizade)listAdapterAmizade.getItem(i));
-                fragment = new AmizadeDetalhe();
+                bundle.putSerializable("produto",(Produtos)listAdapterProdutos.getItem(i));
+                fragment = new ProdutoDetalhe();
                 fragment.setArguments(bundle);
 
                 FragmentManager fragmentManager = getFragmentManager();
@@ -53,11 +58,12 @@ public class Amizades extends android.support.v4.app.Fragment {
                         .replace(R.id.container, fragment).addToBackStack(null)
                         .commit();
 
+
             }
         });
 
-        listAdapterAmizade = new ListAdapterAmizade(this.getActivity(), listAmizade);
-        listView.setAdapter(listAdapterAmizade);
+        listAdapterProdutos = new ListAdapterProdutos(this.getActivity(), listProdutos);
+        listView.setAdapter(listAdapterProdutos);
 
         return view;
     }

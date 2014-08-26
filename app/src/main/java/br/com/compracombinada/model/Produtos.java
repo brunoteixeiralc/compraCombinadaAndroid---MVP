@@ -1,9 +1,11 @@
 package br.com.compracombinada.model;
 
+import java.io.Serializable;
+
 /**
  * Created by bruno on 20/08/14.
  */
-public class Produtos {
+public class Produtos implements Serializable {
 
     private Integer id;
 

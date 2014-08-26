@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:gravity="top"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/convidados"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Convidados"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textAlignment="center"
+        android:paddingTop="10dp"/>
+
+    <ListView
+        android:id="@+id/list_convidados"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="#d1d1d1"
+        android:dividerHeight="1dp"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/locais"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Locais"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textAlignment="center"
+        android:paddingTop="10dp"/>
+
+
+    <ListView
+        android:id="@+id/list_locais"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="#d1d1d1"
+        android:dividerHeight="1dp"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/listas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Listas"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textAlignment="center"
+        android:paddingTop="10dp"/>
+
+
+    <ListView
+        android:id="@+id/list_lista"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="#d1d1d1"
+        android:dividerHeight="1dp"
+        android:visibility="visible" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Começar Compra Coletiva!"
+        android:id="@+id/button"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="10dp"/>
+
+</LinearLayout>

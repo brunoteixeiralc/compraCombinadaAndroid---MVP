@@ -1,12 +1,13 @@
 package br.com.compracombinada.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by bruno on 20/08/14.
  */
-public class Evento {
+public class Evento implements Serializable {
 
     private Integer id;
 
@@ -18,7 +19,7 @@ public class Evento {
 
     private List<Lista> listas;
 
-    private List<Usuario> usuariosConvidados;
+    private List<Usuario> usuarioConvidados;
 
 
     public Integer getId() {
@@ -61,11 +62,11 @@ public class Evento {
         this.listas = listas;
     }
 
-    public List<Usuario> getUsuariosConvidados() {
-        return usuariosConvidados;
+    public List<Usuario> getUsuarioConvidados() {
+        return usuarioConvidados;
     }
 
-    public void setUsuariosConvidados(List<Usuario> usuariosConvidados) {
-        this.usuariosConvidados = usuariosConvidados;
+    public void setUsuarioConvidados(List<Usuario> usuarioConvidados) {
+        this.usuarioConvidados = usuarioConvidados;
     }
 }

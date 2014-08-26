@@ -1,6 +1,5 @@
 package br.com.compracombinada;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +10,13 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import br.com.compracombinada.model.Amizade;
 import br.com.compracombinada.model.Usuario;
 
 /**
  * Created by bruno on 21/08/14.
  */
-public class SobreMim extends android.support.v4.app.Fragment {
+public class ConvidadoDetalhe extends android.support.v4.app.Fragment {
 
     private View view;
     private Usuario usuario;
@@ -30,10 +30,10 @@ public class SobreMim extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.sobremim, container, false);
+        view = inflater.inflate(R.layout.convidado_detalhe, container, false);
 
         usuario = new Usuario();
-        usuario = (Usuario) this.getArguments().get("usuario");
+        usuario = ((Usuario) this.getArguments().get("convidado"));
 
         nome = (TextView)view.findViewById(R.id.nome);
         endereco = (TextView)view.findViewById(R.id.endereco);

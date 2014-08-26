@@ -36,6 +36,7 @@ public class MainActivity extends ActionBarActivity
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
     private SharedPreferences prefs;
+    private Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,20 +52,18 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        prefs = MainActivity.this.getSharedPreferences("settings", Context.MODE_PRIVATE);
-        convertJsonStringToArray(prefs.getString("jsonString", null));
+        //prefs = MainActivity.this.getSharedPreferences("settings", Context.MODE_PRIVATE);
+        //convertJsonStringToArray(prefs.getString("jsonString", null));
 
     }
 
     private void convertJsonStringToArray(String jsonString){
 
         Gson gson = new Gson();
+        usuario = new Usuario();
         JsonParser parser = new JsonParser();
         JsonObject usuarioJSON = (JsonObject) parser.parse(jsonString);
-        Usuario usuario = new Usuario();
         usuario = gson.fromJson(usuarioJSON,Usuario.class);
-
-
 
     }
 
@@ -73,7 +72,13 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
 
         fragment = null;
+
+        if(usuario == null) {
+            prefs = MainActivity.this.getSharedPreferences("settings", Context.MODE_PRIVATE);
+            convertJsonStringToArray(prefs.getString("jsonString", null));
+        }
         Bundle bundle = new Bundle();
+        bundle.putSerializable("usuario", usuario);
 
         switch (position) {
 
@@ -91,9 +96,11 @@ public class MainActivity extends ActionBarActivity
                 break;
         }
 
+        fragment.setArguments(bundle);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
+                .replace(R.id.container, fragment).addToBackStack(null)
                 .commit();
 
 
@@ -144,9 +151,11 @@ public class MainActivity extends ActionBarActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+
         return super.onOptionsItemSelected(item);
     }
 

@@ -1,15 +1,18 @@
 package br.com.compracombinada.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by bruno on 20/08/14.
  */
-public class Lista {
+public class Lista implements Serializable {
 
     private Integer id;
 
     private List<Produtos> produtos;
+
+    private String nome;
 
 
     public Integer getId() {
@@ -27,5 +30,13 @@ public class Lista {
 
     public void setProdutos(List<Produtos> produtos) {
         this.produtos = produtos;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }
