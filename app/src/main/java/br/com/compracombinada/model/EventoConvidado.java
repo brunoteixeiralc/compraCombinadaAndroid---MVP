@@ -6,13 +6,11 @@ import java.util.List;
 /**
  * Created by bruno on 20/08/14.
  */
-public class Lista implements Serializable {
+public class EventoConvidado implements Serializable {
 
     private Integer id;
 
-    private List<Produtos> produtos;
-
-    private String nome;
+    private Evento evento;
 
     private Usuario usuario;
 
@@ -25,20 +23,12 @@ public class Lista implements Serializable {
         this.id = id;
     }
 
-    public List<Produtos> getProdutos() {
-        return produtos;
+    public Evento getEvento() {
+        return evento;
     }
 
-    public void setProdutos(List<Produtos> produtos) {
-        this.produtos = produtos;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setEvento(Evento evento) {
+        this.evento = evento;
     }
 
     public Usuario getUsuario() {

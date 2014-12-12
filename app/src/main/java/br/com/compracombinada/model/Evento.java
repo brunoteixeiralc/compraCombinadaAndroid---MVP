@@ -21,6 +21,10 @@ public class Evento implements Serializable {
 
     private List<Usuario> usuarioConvidados;
 
+    private boolean temCotacao;
+
+    private Usuario usuario;
+
 
     public Integer getId() {
         return id;
@@ -36,14 +40,6 @@ public class Evento implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getDataHora() {
-        return dataHora;
-    }
-
-    public void setDataHora(String dataHora) {
-        this.dataHora = dataHora;
     }
 
     public List<Local> getLocais() {
@@ -68,5 +64,29 @@ public class Evento implements Serializable {
 
     public void setUsuarioConvidados(List<Usuario> usuarioConvidados) {
         this.usuarioConvidados = usuarioConvidados;
+    }
+
+    public String getDataHora() {
+        return dataHora;
+    }
+
+    public void setDataHora(String dataHora) {
+        this.dataHora = dataHora;
+    }
+
+    public boolean isTemCotacao() {
+        return temCotacao;
+    }
+
+    public void setTemCotacao(boolean temCotacao) {
+        this.temCotacao = temCotacao;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

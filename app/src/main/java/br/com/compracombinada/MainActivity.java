@@ -1,6 +1,7 @@
 package br.com.compracombinada;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -27,6 +28,8 @@ import com.google.gson.JsonParser;
 import org.json.JSONObject;
 
 import br.com.compracombinada.model.Usuario;
+import br.com.compracombinada.util.DialogFragment;
+import br.com.compracombinada.util.Utils;
 
 
 public class MainActivity extends ActionBarActivity
@@ -57,13 +60,13 @@ public class MainActivity extends ActionBarActivity
 
     }
 
-    private void convertJsonStringToArray(String jsonString){
+    public void convertJsonStringToArray(String jsonString) {
 
         Gson gson = new Gson();
         usuario = new Usuario();
         JsonParser parser = new JsonParser();
         JsonObject usuarioJSON = (JsonObject) parser.parse(jsonString);
-        usuario = gson.fromJson(usuarioJSON,Usuario.class);
+        usuario = gson.fromJson(usuarioJSON, Usuario.class);
 
     }
 
@@ -72,13 +75,16 @@ public class MainActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
 
         fragment = null;
-
-        if(usuario == null) {
+        Usuario usuario1 = new Usuario();
+        if (usuario == null) {
             prefs = MainActivity.this.getSharedPreferences("settings", Context.MODE_PRIVATE);
-            convertJsonStringToArray(prefs.getString("jsonString", null));
+            //convertJsonStringToArray(prefs.getString("jsonString", null));
+
+            usuario1 = (Usuario) Utils.convertJsonStringToObject(prefs.getString("jsonString", null));
+
         }
         Bundle bundle = new Bundle();
-        bundle.putSerializable("usuario", usuario);
+        bundle.putSerializable("usuario", usuario1);
 
         switch (position) {
 
@@ -89,19 +95,33 @@ public class MainActivity extends ActionBarActivity
                 fragment = new Eventos();
                 break;
             case 2:
-                fragment = new Listas();
+                fragment = new EventosConvidados();
                 break;
             case 3:
+                fragment = new Listas();
+                break;
+            case 4:
                 fragment = new Amizades();
+                break;
+            case 5:
+                fragment = new Cotacoes();
+                break;
+            case 6:
+                fragment = new FinalizarEvento();
+                break;
+            case 7:
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 break;
         }
 
-        fragment.setArguments(bundle);
+        if (fragment != null) {
+            fragment.setArguments(bundle);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment).addToBackStack(null)
-                .commit();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment).addToBackStack(null)
+                    .commit();
+        }
 
 
     }
@@ -115,10 +135,22 @@ public class MainActivity extends ActionBarActivity
                 mTitle = getString(R.string.eventos);
                 break;
             case 3:
-                mTitle = getString(R.string.listas);
+                mTitle = getString(R.string.evento_convidado);
                 break;
             case 4:
+                mTitle = getString(R.string.listas);
+                break;
+            case 5:
                 mTitle = getString(R.string.amizades);
+                break;
+            case 6:
+                mTitle = getString(R.string.cotacoes);
+                break;
+            case 7:
+                mTitle = getString(R.string.finalizar);
+                break;
+            case 8:
+                mTitle = getString(R.string.sair);
                 break;
 
         }
@@ -139,6 +171,13 @@ public class MainActivity extends ActionBarActivity
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.main, menu);
+
+            MenuItem item = menu.findItem(R.id.action_example);
+            item.setVisible(false);
+
+            //MenuItem item2 = menu.findItem(R.id.refresh);
+            //item2.setVisible(false);
+
             restoreActionBar();
             return true;
         }
@@ -186,7 +225,7 @@ public class MainActivity extends ActionBarActivity
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }

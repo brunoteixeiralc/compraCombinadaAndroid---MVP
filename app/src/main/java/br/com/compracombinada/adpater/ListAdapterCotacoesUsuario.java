@@ -11,28 +11,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.compracombinada.R;
-import br.com.compracombinada.model.Lista;
-import br.com.compracombinada.model.Produtos;
+import br.com.compracombinada.model.Cotacao;
+import br.com.compracombinada.model.Evento;
 
-public class ListAdapterProdutos extends BaseAdapter {
+public class ListAdapterCotacoesUsuario extends BaseAdapter {
 
-    private List<Produtos> lista;
+    private List<Cotacao> lista;
     private static LayoutInflater inflater = null;
     private View view;
-    private ArrayList<Produtos> arraylist;
+    private ArrayList<Cotacao> arraylist;
 
-    public ListAdapterProdutos(Context context, List<Produtos> lista) {
-        this.lista = lista;
+    public ListAdapterCotacoesUsuario(Context context, List<Cotacao> listaCotacao) {
+        this.lista = listaCotacao;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.arraylist = new ArrayList<Produtos>();
+        this.arraylist = new ArrayList<Cotacao>();
         this.arraylist.addAll(lista);
 
     }
 
     static class ViewHolder {
 
-        TextView produtoNome;
-        TextView produtoQuant;
+        TextView eventoNome;
+        TextView eventoData;
     }
 
     @Override
@@ -61,19 +61,23 @@ public class ListAdapterProdutos extends BaseAdapter {
 
             holder = new ViewHolder();
 
-            view = inflater.inflate(R.layout.list_row_lista_detalhe, null);
+            view = inflater.inflate(R.layout.list_row_evento, null);
             view.setTag(holder);
 
-            holder.produtoNome = (TextView) view.findViewById(R.id.lista_nome_produto);
-            holder.produtoQuant = (TextView) view.findViewById(R.id.lista_produto_quant);
+            holder.eventoNome = (TextView) view.findViewById(R.id.evento_nome);
+            holder.eventoData = (TextView) view.findViewById(R.id.evento_data);
 
         } else {
 
             holder = (ViewHolder) view.getTag();
         }
 
-        holder.produtoNome.setText(lista.get(position).getProduto().getNome());
-        holder.produtoQuant.setText("Quant: " + lista.get(position).getQuantidade());
+        holder.eventoNome.setText(lista.get(position).getEvento().getNome());
+
+//         DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+//         DateTime date = new DateTime(Long.parseLong(lista.get(position).getDataHora()));
+
+        holder.eventoData.setText(lista.get(position).getEvento().getDataHora());
 
         return view;
 

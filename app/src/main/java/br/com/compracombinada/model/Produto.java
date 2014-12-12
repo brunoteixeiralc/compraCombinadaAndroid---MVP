@@ -14,8 +14,6 @@ public class Produto implements Serializable {
 
     private String fornecedor;
 
-    private float preco;
-
     private String descricao;
 
     private Familia familia;
@@ -45,14 +43,6 @@ public class Produto implements Serializable {
 
     public void setFornecedor(String fornecedor) {
         this.fornecedor = fornecedor;
-    }
-
-    public float getPreco() {
-        return preco;
-    }
-
-    public void setPreco(float preco) {
-        this.preco = preco;
     }
 
     public String getDescricao() {

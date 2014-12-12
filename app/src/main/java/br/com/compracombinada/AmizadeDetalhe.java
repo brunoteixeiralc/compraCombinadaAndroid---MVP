@@ -35,23 +35,19 @@ public class AmizadeDetalhe extends android.support.v4.app.Fragment {
         usuario = new Usuario();
         usuario = ((Amizade) this.getArguments().get("amizade")).getUsuarioConvidado();
 
-        nome = (TextView)view.findViewById(R.id.nome);
-        endereco = (TextView)view.findViewById(R.id.endereco);
-        dtNascimento = (TextView)view.findViewById(R.id.dtNascimento);
-        sexo = (TextView)view.findViewById(R.id.sexo);
-        login = (TextView)view.findViewById(R.id.login);
-        senha = (TextView)view.findViewById(R.id.senha);
+        nome = (TextView) view.findViewById(R.id.nome);
+        endereco = (TextView) view.findViewById(R.id.endereco);
+        dtNascimento = (TextView) view.findViewById(R.id.dtNascimento);
+        sexo = (TextView) view.findViewById(R.id.sexo);
+        login = (TextView) view.findViewById(R.id.login);
+        senha = (TextView) view.findViewById(R.id.senha);
 
         nome.setText(usuario.getNome());
         endereco.setText(usuario.getEndereco());
         login.setText(usuario.getLogin());
         senha.setText(usuario.getSenha());
         sexo.setText(usuario.getSexo().equalsIgnoreCase("M") ? "Masculino" : "Feminino");
-
-        DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
-        DateTime date = new DateTime(Long.parseLong(usuario.getDataNascimento()));
-        System.out.print(dtf.print(date));
-        dtNascimento.setText(dtf.print(date).toString());
+        dtNascimento.setText(usuario.getDataNascimento());
 
         return view;
     }

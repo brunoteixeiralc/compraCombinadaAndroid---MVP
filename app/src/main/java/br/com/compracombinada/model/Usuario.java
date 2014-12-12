@@ -23,15 +23,15 @@ public class Usuario implements Serializable {
 
     private String senha;
 
-    //private String foto;
+    private String foto;
 
-    private List<Evento> eventos;
+    //private List<Evento> eventos;
 
-    private List<RegisterID> registerIDs;
+    //private List<RegisterID> registerIDs;
 
-    private List<Amizade> amizades;
+    //private List<Amizade> amizades;
 
-    private List<Lista> listas;
+    //private List<Lista> listas;
 
 
     public Integer getId() {
@@ -90,35 +90,43 @@ public class Usuario implements Serializable {
         this.senha = senha;
     }
 
-    public List<Evento> getEventos() {
-        return eventos;
+    public String getFoto() {
+        return foto;
     }
 
-    public void setEventos(List<Evento> eventos) {
-        this.eventos = eventos;
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 
-    public List<RegisterID> getRegisterIDs() {
-        return registerIDs;
-    }
-
-    public void setRegisterIDs(List<RegisterID> registerIDs) {
-        this.registerIDs = registerIDs;
-    }
-
-    public List<Amizade> getAmizades() {
-        return amizades;
-    }
-
-    public void setAmizades(List<Amizade> amizades) {
-        this.amizades = amizades;
-    }
-
-    public List<Lista> getListas() {
-        return listas;
-    }
-
-    public void setListas(List<Lista> listas) {
-        this.listas = listas;
-    }
+//    public List<Evento> getEventos() {
+//        return eventos;
+//    }
+//
+//    public void setEventos(List<Evento> eventos) {
+//        this.eventos = eventos;
+//    }
+//
+//    public List<RegisterID> getRegisterIDs() {
+//        return registerIDs;
+//    }
+//
+//    public void setRegisterIDs(List<RegisterID> registerIDs) {
+//        this.registerIDs = registerIDs;
+//    }
+//
+//    public List<Amizade> getAmizades() {
+//        return amizades;
+//    }
+//
+//    public void setAmizades(List<Amizade> amizades) {
+//        this.amizades = amizades;
+//    }
+//
+//    public List<Lista> getListas() {
+//        return listas;
+//    }
+//
+//    public void setListas(List<Lista> listas) {
+//        this.listas = listas;
+//    }
 }

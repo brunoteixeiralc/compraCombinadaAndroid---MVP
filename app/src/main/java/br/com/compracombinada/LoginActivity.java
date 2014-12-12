@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import br.com.compracombinada.asynctask.AsyncTaskCompraColetiva;
+import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaLogin;
 
 /**
  * Created by bruno on 13/08/14.
@@ -35,7 +35,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                new AsyncTaskCompraColetiva(LoginActivity.this).execute(usuario.getText().toString(),senha.getText().toString());
+                new AsyncTaskCompraColetivaLogin(LoginActivity.this).execute(usuario.getText().toString(), senha.getText().toString());
             }
         });
 

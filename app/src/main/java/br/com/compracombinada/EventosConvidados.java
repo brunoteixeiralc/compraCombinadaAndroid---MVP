@@ -15,25 +15,27 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.compracombinada.adpater.ListAdapterAmizade;
-import br.com.compracombinada.adpater.ListAdapterLista;
-import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaListas;
-import br.com.compracombinada.model.Amizade;
-import br.com.compracombinada.model.Lista;
+import br.com.compracombinada.adpater.ListAdapterCotacoesUsuario;
+import br.com.compracombinada.adpater.ListAdapterEventos;
+import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaEventosConvidados;
+import br.com.compracombinada.model.Cotacao;
+import br.com.compracombinada.model.Evento;
+import br.com.compracombinada.model.EventoConvidado;
 import br.com.compracombinada.model.Usuario;
 
 /**
  * Created by bruno on 21/08/14.
  */
-public class Listas extends android.support.v4.app.Fragment {
+public class EventosConvidados extends Fragment {
 
-    private View view;
-    private Usuario usuario;
+    private List<Evento> listEvento;
     private ListView listView;
-    private List<Lista> listLista;
-    private ListAdapterLista listAdapterLista;
+    private Usuario usuario;
+    private View view;
+    private ListAdapterEventos listAdapterEventos;
     private Fragment fragment;
-    private List<Lista> listas;
+    private List<EventoConvidado> eventosConvidados;
+    private List<Evento> eventos;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,45 +44,56 @@ public class Listas extends android.support.v4.app.Fragment {
 
         usuario = (Usuario) getArguments().get("usuario");
 
-        new AsyncTaskCompraColetivaListas(Listas.this).execute(usuario.getId());
+        new AsyncTaskCompraColetivaEventosConvidados(EventosConvidados.this).execute(usuario.getId());
 
         listView = (ListView) view.findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                fragment = new ListaDetalhe();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("listaDetalhe", (Lista) listAdapterLista.getItem(i));
+                bundle.putSerializable("eventoDetalhe", (Evento) listAdapterEventos.getItem(i));
+                fragment = new EventoDetalhe();
                 fragment.setArguments(bundle);
 
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, fragment).addToBackStack(null)
                         .commit();
+
+
             }
         });
 
         return view;
     }
 
-    public void retornoAsyncTaskCompraCombinadaListas(String jsonString) {
 
-        listLista = new ArrayList<Lista>();
+    public void retornoAsyncTaskCompraCombinadaEventosConvidados(String jsonString) {
 
-        convertJsonStringListas(jsonString);
+        listEvento = new ArrayList<Evento>();
 
-        listAdapterLista = new ListAdapterLista(Listas.this.getActivity(), listas);
+        convertJsonStringEventosConvidado(jsonString);
 
-        listView.setAdapter(listAdapterLista);
+        eventos = new ArrayList<Evento>();
+        for (EventoConvidado eventoC : eventosConvidados) {
+            eventos.add(eventoC.getEvento());
+        }
+
+        listAdapterEventos = new ListAdapterEventos(this.getActivity(), eventos);
+
+        listView.setAdapter(listAdapterEventos);
 
     }
 
-    public void convertJsonStringListas(String jsonString) {
+    public void convertJsonStringEventosConvidado(String jsonString) {
 
         Gson gson = new Gson();
-        listas = gson.fromJson(jsonString, new TypeToken<List<Lista>>() {
+        eventosConvidados = gson.fromJson(jsonString, new TypeToken<List<EventoConvidado>>() {
         }.getType());
 
     }
+
+
 }
+

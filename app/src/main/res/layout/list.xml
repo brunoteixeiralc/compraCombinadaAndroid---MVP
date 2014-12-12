@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <ListView
         android:id="@+id/list"
@@ -15,4 +15,12 @@
         android:dividerHeight="1dp"
         android:visibility="visible" />
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/msg"
+        android:gravity="center"
+        android:text="Sem eventos para serem finalizados"
+        android:visibility="gone"
+        android:textSize="20dp" />
 </LinearLayout>

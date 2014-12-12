@@ -9,11 +9,18 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.compracombinada.adpater.ListAdapterAmizade;
+import br.com.compracombinada.adpater.ListAdapterEventos;
+import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaAmizades;
 import br.com.compracombinada.model.Amizade;
+import br.com.compracombinada.model.Evento;
+import br.com.compracombinada.model.EventoConvidado;
 import br.com.compracombinada.model.Usuario;
 
 /**
@@ -27,16 +34,16 @@ public class Amizades extends android.support.v4.app.Fragment {
     private Usuario usuario;
     private List<Amizade> listAmizade;
     private Fragment fragment;
+    private List<Amizade> amizades;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.list,container,false);
+        view = inflater.inflate(R.layout.list, container, false);
 
         usuario = (Usuario) getArguments().get("usuario");
 
-        listAmizade = new ArrayList<Amizade>();
-        listAmizade.addAll(usuario.getAmizades());
+        new AsyncTaskCompraColetivaAmizades(Amizades.this).execute(usuario.getId());
 
         listView = (ListView) view.findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -44,7 +51,7 @@ public class Amizades extends android.support.v4.app.Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("amizade",(Amizade)listAdapterAmizade.getItem(i));
+                bundle.putSerializable("amizade", (Amizade) listAdapterAmizade.getItem(i));
                 fragment = new AmizadeDetalhe();
                 fragment.setArguments(bundle);
 
@@ -56,9 +63,26 @@ public class Amizades extends android.support.v4.app.Fragment {
             }
         });
 
-        listAdapterAmizade = new ListAdapterAmizade(this.getActivity(), listAmizade);
+        return view;
+    }
+
+    public void retornoAsyncTaskCompraCombinadaAmizades(String jsonString) {
+
+        listAmizade = new ArrayList<Amizade>();
+
+        convertJsonStringAmizades(jsonString);
+
+        listAdapterAmizade = new ListAdapterAmizade(Amizades.this.getActivity(), amizades);
+
         listView.setAdapter(listAdapterAmizade);
 
-        return view;
+    }
+
+    public void convertJsonStringAmizades(String jsonString) {
+
+        Gson gson = new Gson();
+        amizades = gson.fromJson(jsonString, new TypeToken<List<Amizade>>() {
+        }.getType());
+
     }
 }
