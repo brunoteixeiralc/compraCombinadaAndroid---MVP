@@ -23,6 +23,6 @@ public class Utils {
 
     }
 
-    public static String ip = "http://192.168.25.3:8080/CompraCombinada";
-//    public static String ip = "http://54.94.142.250:18083/CompraCombinada";
+    // public static String ip = "http://192.168.25.3:8080/CompraCombinada";
+    public static String ip = "http://54.94.142.250:18083/CompraCombinada";
 }
