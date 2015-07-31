@@ -17,6 +17,8 @@ public class Cotacao implements Serializable {
 
     private Lista listaCotacao;
 
+    private Local localEscolhido;
+
 
     public Integer getId() {
         return id;
@@ -49,5 +51,13 @@ public class Cotacao implements Serializable {
 
     public void setListaCotacao(Lista listaCotacao) {
         this.listaCotacao = listaCotacao;
+    }
+
+    public Local getLocalEscolhido() {
+        return localEscolhido;
+    }
+
+    public void setLocalEscolhido(Local localEscolhido) {
+        this.localEscolhido = localEscolhido;
     }
 }

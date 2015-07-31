@@ -109,6 +109,10 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.amizades),
                         getString(R.string.cotacoes),
                         getString(R.string.finalizar),
+                        getString(R.string.configuracao),
+                        getString(R.string.sobre),
+                        getString(R.string.melhorias),
+                        getString(R.string.nao_contem),
                         getString(R.string.sair)
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
@@ -176,13 +180,10 @@ public class NavigationDrawerFragment extends Fragment {
             }
         };
 
-        // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
-        // per the navigation drawer design guidelines.
         if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
             mDrawerLayout.openDrawer(mFragmentContainerView);
         }
 
-        // Defer code dependent on restoration of previous instance state.
         mDrawerLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -237,13 +238,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // If the drawer is open, show the global app actions in the action bar. See also
-        // showGlobalContextActionBar, which controls the top-left area of the action bar.
 
-//        if (mDrawerLayout != null && isDrawerOpen()) {
-//            inflater.inflate(R.menu.global, menu);
-//            showGlobalContextActionBar();
-//        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -256,10 +251,6 @@ public class NavigationDrawerFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Per the navigation drawer design guidelines, updates the action bar to show the global app
-     * 'context', rather than just what's in the current screen.
-     */
     private void showGlobalContextActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
@@ -271,13 +262,8 @@ public class NavigationDrawerFragment extends Fragment {
         return ((ActionBarActivity) getActivity()).getSupportActionBar();
     }
 
-    /**
-     * Callbacks interface that all activities using this fragment must implement.
-     */
     public static interface NavigationDrawerCallbacks {
-        /**
-         * Called when an item in the navigation drawer is selected.
-         */
+
         void onNavigationDrawerItemSelected(int position);
     }
 }

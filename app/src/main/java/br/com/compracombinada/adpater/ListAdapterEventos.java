@@ -17,6 +17,7 @@ import java.util.List;
 import br.com.compracombinada.R;
 import br.com.compracombinada.model.Amizade;
 import br.com.compracombinada.model.Evento;
+import br.com.compracombinada.util.Utils;
 
 public class ListAdapterEventos extends BaseAdapter {
 
@@ -77,11 +78,7 @@ public class ListAdapterEventos extends BaseAdapter {
         }
 
         holder.eventoNome.setText(lista.get(position).getNome());
-
-//         DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
-//         DateTime date = new DateTime(Long.parseLong(lista.get(position).getDataHora()));
-
-        holder.eventoData.setText(lista.get(position).getDataHora());
+        holder.eventoData.setText(Utils.formatData(lista.get(position).getDataHora()));
 
         return view;
 

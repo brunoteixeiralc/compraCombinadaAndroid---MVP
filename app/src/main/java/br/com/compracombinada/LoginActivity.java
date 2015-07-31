@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaLogin;
+import br.com.compracombinada.model.UsuarioSingleton;
 
 /**
  * Created by bruno on 13/08/14.

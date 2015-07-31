@@ -1,8 +1,46 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:windowBackground">@color/branco</item>
+        <item name="android:colorBackground">@color/branco</item>
+        <item name="android:buttonStyle">@style/MyButton</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+
+        <item name="android:background">@color/branco</item>
+        <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@color/branco</item>
+        <item name="titleTextStyle">@style/MyActionBarTitleText</item>
+
+    </style>
+
+    <style name="MyActionBarTitleText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+
+        <item name="android:textColor">@color/preto</item>
+
+    </style>
+
+    <style name="MyButton" parent="android:style/Widget.Button">
+
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:textColor">@color/azul</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@drawable/rounded_button</item>
+
     </style>
 
 </resources>

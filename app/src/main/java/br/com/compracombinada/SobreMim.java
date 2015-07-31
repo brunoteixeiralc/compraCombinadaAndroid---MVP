@@ -1,16 +1,15 @@
 package br.com.compracombinada;
 
-import android.app.Fragment;
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
+import br.com.compracombinada.adpater.cardview.CardViewAdapter;
 import br.com.compracombinada.model.Usuario;
 
 /**
@@ -35,21 +34,21 @@ public class SobreMim extends android.support.v4.app.Fragment {
         usuario = new Usuario();
         usuario = (Usuario) this.getArguments().get("usuario");
 
-        nome = (TextView) view.findViewById(R.id.nome);
-        endereco = (TextView) view.findViewById(R.id.endereco);
-        dtNascimento = (TextView) view.findViewById(R.id.dtNascimento);
-        sexo = (TextView) view.findViewById(R.id.sexo);
-        login = (TextView) view.findViewById(R.id.login);
-        senha = (TextView) view.findViewById(R.id.senha);
+        RecyclerView rv = (RecyclerView)view.findViewById(R.id.card_view);
+        rv.setHasFixedSize(true);
 
-        nome.setText(usuario.getNome());
-        endereco.setText(usuario.getEndereco());
-        login.setText(usuario.getLogin());
-        senha.setText(usuario.getSenha());
-        sexo.setText(usuario.getSexo().equalsIgnoreCase("M") ? "Masculino" : "Feminino");
+        LinearLayoutManager llm = new LinearLayoutManager(SobreMim.this.getActivity());
+        rv.setLayoutManager(llm);
 
-        dtNascimento.setText(usuario.getDataNascimento());
+        CardViewAdapter adapter = new CardViewAdapter(usuario);
+        rv.setAdapter(adapter);
 
         return view;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        ((MainActivity) activity).onSectionAttached(1);
+        super.onAttach(activity);
     }
 }

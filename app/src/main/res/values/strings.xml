@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Compra Combinada</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="app_name">ComboBox</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
@@ -17,10 +14,25 @@
     <string name="usuario">Usuário:</string>
     <string name="finalizar">Finalizar Evento</string>
     <string name="entrar">Entrar</string>
-    <string name="sobre_mim">Sobre mim</string>
+    <string name="sobre_mim">Meu Perfil</string>
     <string name="sair">Sair</string>
     <string name="evento_convidado">Eventos Convidados</string>
-    <!--<string name="ip">Default-Environment-ih7kbizzqe.elasticbeanstalk.com</string>-->
-    <!--<string name="ip">http://192.168.25.3:8080/CompraCombinada</string>-->
+    <string name="configuracao">Configuração</string>
+    <string name="servidor">Servidor</string>
+    <string name="salvar">Salvar</string>
+    <string name="cadastrar_produto">Cadastrar Produto</string>
+    <string name="sobre">Sobre</string>
+    <string name="melhorias">Envie melhorias</string>
+    <string name="enviar">Enviar</string>
+    <string name="merge">Merge</string>
+    <string name="findProduct">Procurar</string>
+    <string name="newProduct">Novo Produto</string>
+    <string name="cap_foto">Capturar foto</string>
+    <string name="buscar">Buscar</string>
+    <string name="nao_contem">Produtos em falta</string>
+    <string name="sel_marca">Selecione uma marca</string>
+    <string name="sel_divisao">Selecione uma divisão</string>
+    <string name="sel_familia">Selecione uma família</string>
+    <string name="sel_pref">Selecione sua preferência</string>
 
 </resources>

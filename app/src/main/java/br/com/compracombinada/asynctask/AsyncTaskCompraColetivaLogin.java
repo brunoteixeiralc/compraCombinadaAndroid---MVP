@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import br.com.compracombinada.LoginActivity;
 import br.com.compracombinada.rest.CompraCobinadaREST;
+import br.com.compracombinada.util.Utils;
 
 public class AsyncTaskCompraColetivaLogin extends AsyncTask<String, Void, String> {
 
@@ -28,7 +29,7 @@ public class AsyncTaskCompraColetivaLogin extends AsyncTask<String, Void, String
 
         try {
 
-            jsonString = compraCobinadaREST.getUsuarioCompraCombinada(params[0], params[1]);
+            jsonString = compraCobinadaREST.getUsuarioCompraCombinada(params[0], Utils.encrypt(params[1]));
 
         } catch (Exception e) {
 

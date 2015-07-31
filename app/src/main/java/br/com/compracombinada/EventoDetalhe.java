@@ -170,10 +170,11 @@ public class EventoDetalhe extends Fragment {
                 prefs = EventoDetalhe.this.getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
                 cotacao.setUsuario((Usuario) Utils.convertJsonStringToObject(prefs.getString("jsonString", null)));
                 lista.setNome("Cotacão " + cotacao.getUsuario().getNome());
-                bundle.putSerializable("cotacao", cotacao);
 
+                bundle.putSerializable("cotacao", cotacao);
                 bundle.putSerializable("listProdutosCompraColetiva", (ArrayList<Produtos>) listProdutosCompraColetiva);
-                fragment = new ListaDetalheCompraColetiva();
+                bundle.putSerializable("listLocaisEvento", (ArrayList<Local>) listLocais);
+                fragment = new EventoEscolherLocal();
                 fragment.setArguments(bundle);
 
                 FragmentManager fragmentManager = getFragmentManager();

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="azul_claro" type="color">#0097CC</item>
+    <item name="azul" type="color">#146B99</item>
+    <item name="azul_escuro" type="color">#1E5877</item>
+    <item name="preto" type="color">#404042</item>
+    <item name="cinza" type="color">#747475</item>
+    <item name="branco" type="color">#FFFFFF</item>
+    <item name="vermelho" type="color">#ffff4444</item>
+
+</resources>

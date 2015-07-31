@@ -37,14 +37,14 @@ public class ProdutoDetalhe extends android.support.v4.app.Fragment {
 
         nome = (TextView)view.findViewById(R.id.produto_nome);
         familia = (TextView)view.findViewById(R.id.produto_familia);
-        divisao = (TextView)view.findViewById(R.id.produto_divisao);
-        grupo = (TextView)view.findViewById(R.id.produto_grupo);
+        //divisao = (TextView)view.findViewById(R.id.produto_divisao);
+        //grupo = (TextView)view.findViewById(R.id.produto_grupo);
         quantidade = (TextView)view.findViewById(R.id.produto_quantidade);
 
         nome.setText(produto.getProduto().getNome());
         familia.setText(produto.getProduto().getFamilia().getNome());
-        divisao.setText(produto.getProduto().getFamilia().getGrupo().getDivisao().getNome());
-        grupo.setText(produto.getProduto().getFamilia().getGrupo().getNome());
+        //divisao.setText(produto.getProduto().getFamilia().getGrupo().getDivisao().getNome());
+        //grupo.setText(produto.getProduto().getFamilia().getGrupo().getNome());
         quantidade.setText(String.valueOf(produto.getQuantidade()));
 
         return view;

@@ -6,6 +6,7 @@ import java.util.List;
 /**
  * Created by bruno on 20/08/14.
  */
+
 public class Produto implements Serializable {
 
     private Integer id;
@@ -18,8 +19,25 @@ public class Produto implements Serializable {
 
     private Familia familia;
 
+    private Marca marca;
+
+    private Divisao divisao;
+
     private int quantidade;
 
+    private String foto;
+
+    private int preferencia;
+
+    private boolean ativo;
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
 
     public Integer getId() {
         return id;
@@ -69,4 +87,35 @@ public class Produto implements Serializable {
         this.quantidade = quantidade;
     }
 
+    public Marca getMarca() {
+        return marca;
+    }
+
+    public void setMarca(Marca marca) {
+        this.marca = marca;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public Divisao getDivisao() {
+        return divisao;
+    }
+
+    public void setDivisao(Divisao divisao) {
+        this.divisao = divisao;
+    }
+
+    public int getPreferencia() {
+        return preferencia;
+    }
+
+    public void setPreferencia(int preferencia) {
+        this.preferencia = preferencia;
+    }
 }

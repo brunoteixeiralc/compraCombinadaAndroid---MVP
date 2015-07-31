@@ -1,5 +1,6 @@
 package br.com.compracombinada;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -84,5 +85,11 @@ public class Amizades extends android.support.v4.app.Fragment {
         amizades = gson.fromJson(jsonString, new TypeToken<List<Amizade>>() {
         }.getType());
 
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        ((MainActivity) activity).onSectionAttached(5);
+        super.onAttach(activity);
     }
 }

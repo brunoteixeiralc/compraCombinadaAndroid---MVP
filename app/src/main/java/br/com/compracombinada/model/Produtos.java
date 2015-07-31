@@ -19,6 +19,10 @@ public class Produtos implements Serializable {
 
     private boolean naoContem;
 
+    private boolean deletou;
+
+    private Produto produtoTempPref;
+
 
     public Integer getId() {
         return id;
@@ -67,5 +71,22 @@ public class Produtos implements Serializable {
 
     public void setNaoContem(boolean naoContem) {
         this.naoContem = naoContem;
+    }
+
+
+    public boolean isDeletou() {
+        return deletou;
+    }
+
+    public void setDeletou(boolean deletou) {
+        this.deletou = deletou;
+    }
+
+    public Produto getProdutoTempPref() {
+        return produtoTempPref;
+    }
+
+    public void setProdutoTempPref(Produto produtoTempPref) {
+        this.produtoTempPref = produtoTempPref;
     }
 }

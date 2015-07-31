@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Amizade"
-        android:textColor="#000"
+        android:textColor="@color/preto"
         android:textSize="20sp"
         android:textStyle="normal"
         android:singleLine="true"

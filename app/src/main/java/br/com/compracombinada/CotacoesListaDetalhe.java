@@ -1,8 +1,6 @@
 package br.com.compracombinada;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,16 +16,14 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 import br.com.compracombinada.adpater.ListAdapterProdutosCompraColetiva;
 import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaAddCotacao;
 import br.com.compracombinada.model.Cotacao;
 import br.com.compracombinada.model.Lista;
-import br.com.compracombinada.model.Produto;
 import br.com.compracombinada.model.Produtos;
-import br.com.compracombinada.util.DialogFragment;
+import br.com.compracombinada.util.DialogFragmentCotacao;
 
 /**
  * Created by bruno on 21/08/14.
@@ -39,7 +35,6 @@ public class CotacoesListaDetalhe extends Fragment {
     private List<Produtos> listProdutos;
     private ListAdapterProdutosCompraColetiva listAdapterProdutos;
     private Fragment fragment;
-    private DialogFragment dialogFragment;
     private Cotacao cotacao;
 
     @Override
@@ -53,20 +48,26 @@ public class CotacoesListaDetalhe extends Fragment {
 
         listProdutos = new ArrayList<Produtos>();
 
-        for (Produtos produto : cotacao.getListaCotacao().getProdutos()) {
-            if (Float.valueOf(produto.getPreco()) > 0) {
-                for (Lista l : cotacao.getEvento().getListas()) {
-                    for (Produtos p : l.getProdutos()) {
-                        if (p.getProduto().getNome().equalsIgnoreCase(produto.getProduto().getNome())) {
-                            produto.setUsuarioNome(l.getUsuario().getNome());
-                            break;
-                        }
-                    }
+        if(cotacao != null) {
 
-                    break;
+            for (Produtos produto : cotacao.getListaCotacao().getProdutos()) {
+                if (Float.valueOf(produto.getPreco()) > 0) {
+                    for (Lista l : cotacao.getEvento().getListas()) {
+                        for (Produtos p : l.getProdutos()) {
+                            if (p.getProduto().getNome().equalsIgnoreCase(produto.getProduto().getNome())) {
+                                produto.setUsuarioNome(l.getUsuario().getNome());
+                                break;
+                            }
+                        }
+
+                        break;
+                    }
+                    listProdutos.add(produto);
                 }
-                listProdutos.add(produto);
             }
+        }else{
+
+            listProdutos.addAll((java.util.Collection<? extends Produtos>) getArguments().get("listProdutosCompraColetiva"));
         }
 
         listView = (ListView) view.findViewById(R.id.list);
@@ -87,7 +88,7 @@ public class CotacoesListaDetalhe extends Fragment {
             }
         });
 
-        listAdapterProdutos = new ListAdapterProdutosCompraColetiva(this.getActivity(), listProdutos);
+        listAdapterProdutos = new ListAdapterProdutosCompraColetiva(this, listProdutos);
         listView.setAdapter(listAdapterProdutos);
 
         Collections.sort(listProdutos, new Comparator() {
@@ -101,6 +102,37 @@ public class CotacoesListaDetalhe extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.main, menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+
+            case R.id.add:
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("listProdutosCompraColetiva", (ArrayList<Produtos>) listProdutos);
+                bundle.putString("fragment", "cotacoesListaDetalhe");
+                fragment = new BuscarProdutos();
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, fragment).addToBackStack(null)
+                        .commit();
+
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

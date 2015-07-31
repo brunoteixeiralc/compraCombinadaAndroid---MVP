@@ -7,6 +7,17 @@
     android:gravity="center"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/valorTotal"
+        android:gravity="center"
+        android:text="Valor total de R$ 40,00"
+        android:textColor="@color/preto"
+        android:visibility="gone"
+        android:textSize="20dp"
+        android:padding="10sp"/>
+
     <ListView
         android:id="@+id/list"
         android:layout_width="fill_parent"
@@ -20,6 +31,7 @@
         android:layout_height="fill_parent"
         android:id="@+id/msg"
         android:gravity="center"
+        android:textStyle="bold"
         android:text="Sem eventos para serem finalizados"
         android:visibility="gone"
         android:textSize="20dp" />
