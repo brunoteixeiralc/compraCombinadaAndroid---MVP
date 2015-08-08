@@ -1,18 +1,13 @@
 package br.com.compracombinada;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
-import br.com.compracombinada.model.Produto;
+import br.com.compracombinada.adpater.cardview.CardViewProdutoDetalheAdapter;
 import br.com.compracombinada.model.Produtos;
-import br.com.compracombinada.model.Usuario;
 
 /**
  * Created by bruno on 21/08/14.
@@ -20,32 +15,24 @@ import br.com.compracombinada.model.Usuario;
 public class ProdutoDetalhe extends android.support.v4.app.Fragment {
 
     private View view;
-    private Produtos produto;
-    private TextView nome;
-    private TextView familia;
-    private TextView divisao;
-    private TextView grupo;
-    private TextView quantidade;
+    private Produtos produtos;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.produto_detalhe, container, false);
 
-        produto = new Produtos();
-        produto = (Produtos) this.getArguments().get("produto");
+        produtos = new Produtos();
+        produtos = (Produtos) this.getArguments().get("produto");
 
-        nome = (TextView)view.findViewById(R.id.produto_nome);
-        familia = (TextView)view.findViewById(R.id.produto_familia);
-        //divisao = (TextView)view.findViewById(R.id.produto_divisao);
-        //grupo = (TextView)view.findViewById(R.id.produto_grupo);
-        quantidade = (TextView)view.findViewById(R.id.produto_quantidade);
+        RecyclerView rv = (RecyclerView)view.findViewById(R.id.card_view);
+        rv.setHasFixedSize(true);
 
-        nome.setText(produto.getProduto().getNome());
-        familia.setText(produto.getProduto().getFamilia().getNome());
-        //divisao.setText(produto.getProduto().getFamilia().getGrupo().getDivisao().getNome());
-        //grupo.setText(produto.getProduto().getFamilia().getGrupo().getNome());
-        quantidade.setText(String.valueOf(produto.getQuantidade()));
+        LinearLayoutManager llm = new LinearLayoutManager(ProdutoDetalhe.this.getActivity());
+        rv.setLayoutManager(llm);
+
+        CardViewProdutoDetalheAdapter adapter = new CardViewProdutoDetalheAdapter(produtos);
+        rv.setAdapter(adapter);
 
         return view;
     }

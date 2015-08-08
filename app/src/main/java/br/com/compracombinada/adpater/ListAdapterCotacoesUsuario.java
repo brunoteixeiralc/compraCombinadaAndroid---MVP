@@ -13,6 +13,7 @@ import java.util.List;
 import br.com.compracombinada.R;
 import br.com.compracombinada.model.Cotacao;
 import br.com.compracombinada.model.Evento;
+import br.com.compracombinada.util.Utils;
 
 public class ListAdapterCotacoesUsuario extends BaseAdapter {
 
@@ -73,11 +74,7 @@ public class ListAdapterCotacoesUsuario extends BaseAdapter {
         }
 
         holder.eventoNome.setText(lista.get(position).getEvento().getNome());
-
-//         DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
-//         DateTime date = new DateTime(Long.parseLong(lista.get(position).getDataHora()));
-
-        holder.eventoData.setText(lista.get(position).getEvento().getDataHora());
+        holder.eventoData.setText(Utils.formatData(lista.get(position).getEvento().getDataHora()));
 
         return view;
 

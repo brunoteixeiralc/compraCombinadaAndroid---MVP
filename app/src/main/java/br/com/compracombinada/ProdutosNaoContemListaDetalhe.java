@@ -18,15 +18,11 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import br.com.compracombinada.adpater.ListAdapterProdutosCompraColetiva;
 import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaListaNaoContemProdutos;
-import br.com.compracombinada.model.Cotacao;
 import br.com.compracombinada.model.Produtos;
-import br.com.compracombinada.model.ValidarCotacao;
 
 /**
  * Created by bruno on 21/08/14.

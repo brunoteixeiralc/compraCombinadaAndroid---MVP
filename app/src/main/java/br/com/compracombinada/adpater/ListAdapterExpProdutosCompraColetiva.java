@@ -52,6 +52,7 @@ public class ListAdapterExpProdutosCompraColetiva extends BaseExpandableListAdap
         TextView naoContem;
         ImageView deletarItem;
         TextView produtoPreferencia;
+        TextView txtKg;
     }
 
     @Override
@@ -99,7 +100,7 @@ public class ListAdapterExpProdutosCompraColetiva extends BaseExpandableListAdap
         txt.setTextColor(Color.WHITE);
         txt.setBackgroundColor(Color.GRAY);
         txt.setText(key.get(i));
-        txt.setPadding(100,10,10,10);
+        txt.setPadding(100, 10, 10, 10);
 
         return view;
     }
@@ -125,6 +126,7 @@ public class ListAdapterExpProdutosCompraColetiva extends BaseExpandableListAdap
             holder.deletarItem = (ImageView) view.findViewById(R.id.img_delete);
             holder.naoContem = (TextView) view.findViewById(R.id.nao_contem_produto);
             holder.produtoPreferencia = (TextView) view.findViewById(R.id.produto_pref_escolhido);
+            holder.txtKg = (TextView) view.findViewById(R.id.txt_kg);
             holder.usuarioLista.setVisibility(view.VISIBLE);
             holder.produtoPreco.setVisibility(view.VISIBLE);
             holder.naoContem.setVisibility(view.GONE);
@@ -158,7 +160,8 @@ public class ListAdapterExpProdutosCompraColetiva extends BaseExpandableListAdap
         verificaPreferencia(holder, arraylist.get(key.get(i)).get(i1));
 
         holder.produtoNome.setText(arraylist.get(key.get(i)).get(i1).getProduto().getNome());
-        holder.produtoQuant.setText("Quant: " + arraylist.get(key.get(i)).get(i1).getQuantidade());
+        holder.produtoQuant.setText(arraylist.get(key.get(i)).get(i1).getProduto().getFamilia().getMedida().equalsIgnoreCase("unidade") ? "Quant: " + arraylist.get(key.get(i)).get(i1).getQuantidade() :
+                arraylist.get(key.get(i)).get(i1).getQuantidade() + " gramas");
         holder.usuarioLista.setText("Lista de " + arraylist.get(key.get(i)).get(i1).getUsuarioNome());
 
         return view;
@@ -201,12 +204,26 @@ public class ListAdapterExpProdutosCompraColetiva extends BaseExpandableListAdap
 
         } else {
 
-            if (produtos.getPreco() != null && produtos.getPreco().contains(".")) {
-                precoDouble = Double.parseDouble(produtos.getPreco());
-                holder.produtoPreco.setText(produtos.getPreco() == null ? "R$ 00,00" : "R$ " + precoFinal.format(precoDouble));
-            } else {
-                holder.produtoPreco.setText(produtos.getPreco() == null ? "R$ 00,00" : "R$ " + produtos.getPreco());
+            if(produtos.getProduto().getFamilia().getMedida().equalsIgnoreCase("quilo")){
+
+                if (produtos.getPrecoKG() != null && produtos.getPrecoKG().contains(".")) {
+                    precoDouble = Double.parseDouble(produtos.getPrecoKG());
+                    holder.produtoPreco.setText(produtos.getPrecoKG() == null ? "R$ 00,00" : "R$ " + precoFinal.format(precoDouble));
+                } else {
+                    holder.produtoPreco.setText(produtos.getPrecoKG() == null ? "R$ 00,00" : "R$ " + produtos.getPrecoKG());
+                }
+
+            }else{
+
+                if (produtos.getPreco() != null && produtos.getPreco().contains(".")) {
+                    precoDouble = Double.parseDouble(produtos.getPreco());
+                    holder.produtoPreco.setText(produtos.getPreco() == null ? "R$ 00,00" : "R$ " + precoFinal.format(precoDouble));
+                } else {
+                    holder.produtoPreco.setText(produtos.getPreco() == null ? "R$ 00,00" : "R$ " + produtos.getPreco());
+                }
             }
+
+            holder.txtKg.setVisibility(produtos.getProduto().getFamilia().getMedida().equalsIgnoreCase("quilo") ? View.VISIBLE : View.GONE);
 
             if(!holder.produtoPreco.getText().toString().equalsIgnoreCase("R$ 00,00")){
                 view.setBackgroundColor(Color.parseColor("#ADD8E6"));

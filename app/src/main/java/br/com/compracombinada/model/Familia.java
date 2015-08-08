@@ -13,6 +13,8 @@ public class Familia implements Serializable {
 
     private String descricao;
 
+    private String medida;
+
     private Grupo grupo;
 
 
@@ -46,5 +48,13 @@ public class Familia implements Serializable {
 
     public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
+    }
+
+    public String getMedida() {
+        return medida;
+    }
+
+    public void setMedida(String medida) {
+        this.medida = medida;
     }
 }

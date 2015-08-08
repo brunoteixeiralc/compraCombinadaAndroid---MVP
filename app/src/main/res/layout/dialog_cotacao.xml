@@ -50,15 +50,15 @@
                 android:inputType="numberDecimal"
                 android:maxLength="6"/>
 
-            <CheckBox
-                android:id="@+id/chkNaoContem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Não tem"
-                android:textSize="5pt"
-                android:textColor="@color/preto"/>
-
         </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/chkNaoContem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Não tem"
+            android:textSize="5pt"
+            android:textColor="@color/preto"/>
 
         <LinearLayout
             android:id="@+id/ll_btn"

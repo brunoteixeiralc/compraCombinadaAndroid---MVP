@@ -100,6 +100,9 @@ public class DialogFragmentCotacao extends android.support.v4.app.DialogFragment
         edtPreco = (EditText) view.findViewById(R.id.reais);
         edtPreco.addTextChangedListener(this);
 
+        if(produtos.getProduto().getFamilia().getMedida().equalsIgnoreCase("quilo"))
+            edtPreco.setHint("Quanto vale o KG?");
+
         checkNaoContem = (CheckBox) view.findViewById(R.id.chkNaoContem);
         checkNaoContem.setOnClickListener(new View.OnClickListener() {
             @Override

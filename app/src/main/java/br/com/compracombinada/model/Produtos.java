@@ -23,6 +23,8 @@ public class Produtos implements Serializable {
 
     private Produto produtoTempPref;
 
+    private String precoKG;
+
 
     public Integer getId() {
         return id;
@@ -88,5 +90,13 @@ public class Produtos implements Serializable {
 
     public void setProdutoTempPref(Produto produtoTempPref) {
         this.produtoTempPref = produtoTempPref;
+    }
+
+    public String getPrecoKG() {
+        return precoKG;
+    }
+
+    public void setPrecoKG(String precoKG) {
+        this.precoKG = precoKG;
     }
 }

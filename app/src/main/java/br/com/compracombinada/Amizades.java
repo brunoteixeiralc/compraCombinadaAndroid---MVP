@@ -17,11 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.compracombinada.adpater.ListAdapterAmizade;
-import br.com.compracombinada.adpater.ListAdapterEventos;
 import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaAmizades;
 import br.com.compracombinada.model.Amizade;
-import br.com.compracombinada.model.Evento;
-import br.com.compracombinada.model.EventoConvidado;
 import br.com.compracombinada.model.Usuario;
 
 /**

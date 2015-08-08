@@ -113,7 +113,11 @@ public class AdicionarProduto extends android.support.v4.app.Fragment implements
         familia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
                 familiaSelecionada = (Familia) adapterView.getItemAtPosition(i);
+                quantidade.setHint(familiaSelecionada.getMedida().equalsIgnoreCase("unidade") ? "Quantidade" : "Gramas");
+                edtPreco.setHint(familiaSelecionada.getMedida().equalsIgnoreCase("unidade") ? "Seu preço (R$)" : "Preço (R$) de 1 KG");
+
             }
 
             @Override
@@ -146,25 +150,8 @@ public class AdicionarProduto extends android.support.v4.app.Fragment implements
             @Override
             public void onClick(View view) {
 
-                count++;
-                String file = null;
-
-                if(nome.getText().toString().isEmpty()){
-                    file = dir + "imagemCompraCombinada" + count + ".jpg";
-                }else{
-                    file = dir + nome.getText().toString() + count + ".jpg";
-                }
-
-                File newfile = new File(file);
-
-                try {
-                    newfile.createNewFile();
-                } catch (IOException e) {}
-
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, newfile);
-
-                startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
+                startActivityForResult(cameraIntent, 0);
             }
         });
 
@@ -181,7 +168,7 @@ public class AdicionarProduto extends android.support.v4.app.Fragment implements
                 p.setDivisao(divisaoSelecionada);
                 p.setAtivo(false);
 
-                if(bp != null) {
+                if (bp != null) {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byte[] byteArray = stream.toByteArray();
@@ -232,12 +219,12 @@ public class AdicionarProduto extends android.support.v4.app.Fragment implements
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == TAKE_PHOTO_CODE && resultCode == Activity.RESULT_OK) {
+        if(data != null){
+
             Log.d("Camera", "Foto salva");
             bp = (Bitmap) data.getExtras().get("data");
             foto.setVisibility(View.VISIBLE);
             foto.setImageBitmap(bp);
-
 
         }
     }
@@ -250,10 +237,19 @@ public class AdicionarProduto extends android.support.v4.app.Fragment implements
             ps.setProduto(p);
             ps.setQuantidade(Integer.parseInt(quantidade.getText().toString()));
             ps.setUsuarioNome(UsuarioSingleton.getInstance().getUsuario().getNome());
-            ps.setPreco(edtPreco.getText().toString());
+            if(p.getFamilia().getMedida().equalsIgnoreCase("quilo")){
+                ps.setPrecoKG(edtPreco.getText().toString());
+            }else{
+                ps.setPreco(edtPreco.getText().toString());
+            }
             ps.setNaoContem(false);
+
             if (ps.getPreco().isEmpty())
                 ps.setPreco(null);
+
+            if(ps.getPrecoKG().isEmpty())
+                ps.setPrecoKG(null);
+
             listProdutos.add(ps);
 
             Bundle bundle = new Bundle();
@@ -274,7 +270,7 @@ public class AdicionarProduto extends android.support.v4.app.Fragment implements
         }else{
 
             AlertDialog.Builder builder = new AlertDialog.Builder(AdicionarProduto.this.getActivity());
-            builder.setMessage("Ocorreu um erro para adicionar o Produto")
+            builder.setMessage("Ocorreu um erro para adicionar o produto")
                     .setTitle("Compra Combinada");
             AlertDialog dialog = builder.create();
             dialog.show();

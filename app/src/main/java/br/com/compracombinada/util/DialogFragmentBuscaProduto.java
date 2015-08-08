@@ -54,7 +54,8 @@ public class DialogFragmentBuscaProduto extends android.support.v4.app.DialogFra
         produto = (Produto) getArguments().getSerializable("produto");
 
         foto = (ImageView) view.findViewById(R.id.foto);
-        foto.setImageBitmap(convertBase64Image(produto.getFoto()));
+        if(produto.getFoto() != null)
+            foto.setImageBitmap(convertBase64Image(produto.getFoto()));
 
         edtPreco = (EditText) view.findViewById(R.id.reais);
         edtPreco.addTextChangedListener(this);

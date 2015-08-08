@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import br.com.compracombinada.adpater.cardview.CardViewAdapter;
+import br.com.compracombinada.adpater.cardview.CardViewSobreMimAdapter;
 import br.com.compracombinada.model.Usuario;
 
 /**
@@ -40,7 +40,7 @@ public class SobreMim extends android.support.v4.app.Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(SobreMim.this.getActivity());
         rv.setLayoutManager(llm);
 
-        CardViewAdapter adapter = new CardViewAdapter(usuario);
+        CardViewSobreMimAdapter adapter = new CardViewSobreMimAdapter(usuario);
         rv.setAdapter(adapter);
 
         return view;

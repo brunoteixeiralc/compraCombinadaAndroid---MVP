@@ -123,6 +123,8 @@ public class ListAdapterProdutosCompraColetiva extends BaseAdapter {
 
         holder.produtoNome.setText(lista.get(position).getProduto().getNome());
         holder.produtoQuant.setText("Quant: " + lista.get(position).getQuantidade());
+        holder.produtoQuant.setText(lista.get(position).getProduto().getFamilia().getMedida().equalsIgnoreCase("unidade") ? "Quant: " + lista.get(position).getQuantidade() :
+                lista.get(position).getQuantidade() + " gramas");
         holder.usuarioLista.setText("Lista de " + lista.get(position).getUsuarioNome());
 
         return view;

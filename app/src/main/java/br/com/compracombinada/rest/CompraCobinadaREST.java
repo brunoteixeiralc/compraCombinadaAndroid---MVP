@@ -8,6 +8,7 @@ import br.com.compracombinada.R;
 import br.com.compracombinada.model.Cotacao;
 import br.com.compracombinada.model.Evento;
 import br.com.compracombinada.model.Produto;
+import br.com.compracombinada.model.Produtos;
 import br.com.compracombinada.model.Solicitacoes;
 import br.com.compracombinada.util.Utils;
 
@@ -252,6 +253,19 @@ public class CompraCobinadaREST {
 
         String URL_WS = Utils.ip.toString() + "/REST/compracombinada/addProduto";
         String[] resposta = new WebServiceCompraCombinada().post(URL_WS, produto);
+
+        if (resposta[0].equals("200")) {
+            return resposta[1];
+
+        } else {
+            throw new Exception(resposta[1]);
+        }
+    }
+
+    public String getUpdateProdutoCotacao(Produtos produtos) throws Exception {
+
+        String URL_WS = Utils.ip.toString() + "/REST/compracombinada/updateListaProdutoCotacao";
+        String[] resposta = new WebServiceCompraCombinada().post(URL_WS, produtos);
 
         if (resposta[0].equals("200")) {
             return resposta[1];

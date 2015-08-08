@@ -11,7 +11,7 @@ import br.com.compracombinada.R;
 import br.com.compracombinada.model.Usuario;
 import br.com.compracombinada.util.Utils;
 
-public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.CardViewHolder>{
+public class CardViewSobreMimAdapter extends RecyclerView.Adapter<CardViewSobreMimAdapter.CardViewHolder>{
 
 	private Usuario usuario;
 
@@ -33,12 +33,12 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.CardVi
 		}
 	}
 
-	public CardViewAdapter(Usuario usuario){
+	public CardViewSobreMimAdapter(Usuario usuario){
 		this.usuario = usuario;
 	}
 
 	@Override
-	public CardViewAdapter.CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+	public CardViewSobreMimAdapter.CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
 		View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_sobremim, parent, false);
 		CardViewHolder pvh = new CardViewHolder(v);
@@ -46,7 +46,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.CardVi
 	}
 
 	@Override
-	public void onBindViewHolder(CardViewAdapter.CardViewHolder holder, int position) {
+	public void onBindViewHolder(CardViewSobreMimAdapter.CardViewHolder holder, int position) {
 
 		holder.nome.setText(usuario.getNome().toString());
 		holder.endereco.setText(usuario.getEndereco().toString());

@@ -28,7 +28,6 @@ import java.util.Map;
 import br.com.compracombinada.adpater.ListAdapterExpProdutosCompraColetiva;
 import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaAddCotacao;
 import br.com.compracombinada.model.Cotacao;
-import br.com.compracombinada.model.Produto;
 import br.com.compracombinada.model.ProdutoPreferencia;
 import br.com.compracombinada.model.Produtos;
 import br.com.compracombinada.sqlite.CompraCombindaDS;
@@ -194,13 +193,30 @@ public class ListaDetalheCompraColetiva extends Fragment {
                             }
 
                             listProdutos.get(i).setNaoContem(data.getBooleanExtra("naoContem", false));
-                            listProdutos.get(i).setPreco(data.getStringExtra("preco"));
 
-                            if (listProdutos.get(i).getPreco().isEmpty())
-                                listProdutos.get(i).setPreco(null);
-                            else
-                                valorTotalDouble = valorTotalDouble + Double.parseDouble(listProdutos.get(i).getPreco().replace(",","."));
-                            break;
+                            if(listProdutos.get(i).getProduto().getFamilia().getMedida().equalsIgnoreCase("quilo")){
+
+                                listProdutos.get(i).setPrecoKG(data.getStringExtra("preco"));
+
+                                listProdutos.get(i).setPreco(calculoKG(listProdutos.get(i).getQuantidade(), listProdutos.get(i).getPrecoKG()));
+
+                                if (listProdutos.get(i).getPrecoKG().isEmpty())
+                                    listProdutos.get(i).setPrecoKG(null);
+                                else
+                                    valorTotalDouble = valorTotalDouble + Double.parseDouble(listProdutos.get(i).getPreco().replace(",","."));
+                                break;
+
+                            }else{
+
+                                listProdutos.get(i).setPreco(data.getStringExtra("preco"));
+
+                                if (listProdutos.get(i).getPreco().isEmpty())
+                                    listProdutos.get(i).setPreco(null);
+                                else
+                                    valorTotalDouble = valorTotalDouble + Double.parseDouble(listProdutos.get(i).getPreco().replace(",","."));
+                                break;
+                            }
+
                         }
                     }
 
@@ -264,6 +280,10 @@ public class ListaDetalheCompraColetiva extends Fragment {
                         if (p.getPreco() != null)
                             p.setPreco(p.getPreco().replace(",", "."));
 
+                        if(p.getPrecoKG() != null){
+                            p.setPrecoKG(p.getPrecoKG().replace(",","."));
+                        }
+
                     } else {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(ListaDetalheCompraColetiva.this.getActivity());
@@ -308,6 +328,17 @@ public class ListaDetalheCompraColetiva extends Fragment {
 
         compraCombindaDS.deleteProdutos();
 
+    }
+
+    private String calculoKG(int quantGramas, String precoKG){
+
+        Double precoKGFormat = Double.parseDouble(precoKG.replace(",", "."));
+        Double calculoFinal = (precoKGFormat * quantGramas)/1000;
+
+        DecimalFormat precoFinal = new DecimalFormat("#,#00.00", new DecimalFormatSymbols(new Locale ("pt", "BR")));
+        String formatted = precoFinal.format(calculoFinal);
+
+        return formatted;
     }
 
 }

@@ -14,13 +14,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import br.com.compracombinada.adpater.ListAdapterLista;
 import br.com.compracombinada.adpater.ListAdapterProdutos;
-import br.com.compracombinada.model.Amizade;
 import br.com.compracombinada.model.Lista;
-import br.com.compracombinada.model.Produto;
 import br.com.compracombinada.model.Produtos;
-import br.com.compracombinada.model.Usuario;
 
 /**
  * Created by bruno on 21/08/14.

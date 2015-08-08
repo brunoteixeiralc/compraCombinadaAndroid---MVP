@@ -6,24 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minWidth="600dp"
-    android:minHeight="200dp"
+    android:minHeight="150dp"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
     android:paddingLeft="5sp"
     android:paddingRight="5sp">
 
-    <ImageView
-    android:layout_width="80dp"
-    android:layout_height="80dp"
-    android:src="@drawable/no_photo"
-    android:id="@+id/foto"/>
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
+        android:layout_gravity="center_horizontal">
 
 
         <LinearLayout
@@ -32,40 +25,27 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:layout_below="@+id/reais">
+            android:layout_below="@+id/reais"
+            android:layout_gravity="center_horizontal">
 
-            <TextView
-                android:id="@+id/txtReais"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="R$"
-                android:textSize="30dp" />
 
             <EditText
-                android:id="@+id/reais"
+                android:id="@+id/quant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:hint="Seu preço?"
+                android:hint="Qual a nova medida?"
                 android:inputType="numberDecimal"
                 android:maxLength="6"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="gramas"
+                android:textSize="30dp" />
+
+
         </LinearLayout>
-
-        <CheckBox
-            android:id="@+id/chkNaoContem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Não tem"
-            android:textSize="5pt"
-            android:textColor="@color/preto"/>
-
-        <Spinner
-            android:id="@+id/pref"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:spinnerMode="dialog"
-            android:prompt="@string/sel_pref"/>
 
         <LinearLayout
             android:id="@+id/ll_btn"
