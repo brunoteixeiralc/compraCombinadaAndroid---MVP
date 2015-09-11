@@ -3,6 +3,7 @@ package br.com.compracombinada;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -31,8 +32,11 @@ import java.util.List;
 import java.util.Locale;
 
 import br.com.compracombinada.adpater.ListAdapterProduto;
+import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaAddListaProdutoCotacao;
 import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaProdutos;
+import br.com.compracombinada.model.Cotacao;
 import br.com.compracombinada.model.Evento;
+import br.com.compracombinada.model.Lista;
 import br.com.compracombinada.model.Produto;
 import br.com.compracombinada.model.Produtos;
 import br.com.compracombinada.model.UsuarioSingleton;
@@ -53,6 +57,7 @@ public class BuscarProdutos extends Fragment {
     private List<Produtos> listProdutos;
     private MenuItem item;
     private EditText editsearch;
+    private Double valorTotalDouble;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +68,8 @@ public class BuscarProdutos extends Fragment {
 
         listProdutos = new ArrayList<Produtos>();
         listProdutos.addAll((java.util.Collection<? extends Produtos>) getArguments().get("listProdutosCompraColetiva"));
+
+        valorTotalDouble = (Double) getArguments().get("valorTotal");
 
         new AsyncTaskCompraColetivaProdutos(BuscarProdutos.this).execute();
 
@@ -133,12 +140,18 @@ public class BuscarProdutos extends Fragment {
                     ps.setQuantidade(Integer.parseInt(data.getStringExtra("quantidade")));
                     listProdutos.add(ps);
 
+                    valorTotalDouble = valorTotalDouble + calculoQuantidadePreco(Double.parseDouble(data.getStringExtra("preco").toString().replace(",",".")),ps.getQuantidade());
+
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("listProdutosCompraColetiva", (ArrayList<Produtos>) listProdutos);
+                    bundle.putDouble("valorTotal", valorTotalDouble);
+                    bundle.putSerializable("cotacao", getArguments().getSerializable("cotacao"));
 
                     if(data.getStringExtra("fragment").equalsIgnoreCase("listaDetalheCompraColetiva")){
+                        ps.setAdicionado("pre-merge");
                         fragment = new ListaDetalheCompraColetiva();
                     }else{
+                        ps.setAdicionado("pos-merge");
                         fragment = new CotacoesListaDetalhe();
                     }
 
@@ -148,6 +161,13 @@ public class BuscarProdutos extends Fragment {
                     fragmentManager.beginTransaction()
                             .replace(R.id.container, fragment).addToBackStack(null)
                             .commit();
+
+                    //mandar o preço com "." ao invés de "," pois do outro lado é um float
+                    Produtos psTemp = ps;
+                    psTemp.setPreco(data.getStringExtra("preco").toString().replace(",", "."));
+                    psTemp.setLista(((Cotacao) getArguments().getSerializable("cotacao")).getListaCotacao());
+
+                    new AsyncTaskCompraColetivaAddListaProdutoCotacao(BuscarProdutos.this.getActivity()).execute(psTemp);
 
                 } else if (resultCode == Activity.RESULT_CANCELED) {
 
@@ -171,6 +191,7 @@ public class BuscarProdutos extends Fragment {
         LayoutParams lparams = new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.MATCH_PARENT);
         editsearch.setLayoutParams(lparams);
         editsearch.setHint("Buscar");
+        editsearch.setTextColor(Color.BLACK);
 
         editsearch.addTextChangedListener(textWatcher);
 
@@ -204,6 +225,8 @@ public class BuscarProdutos extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("listProdutosCompraColetiva", (ArrayList<Produtos>) listProdutos);
                 bundle.putString("fragment", (String) getArguments().get("fragment"));
+                bundle.putDouble("valorTotal", (Double) getArguments().get("valorTotal"));
+                bundle.putSerializable("listaCotacao", ((Cotacao) getArguments().getSerializable("cotacao")).getListaCotacao());
                 fragment = new AdicionarProduto();
                 fragment.setArguments(bundle);
                 FragmentManager fragmentManager = getFragmentManager();
@@ -240,5 +263,9 @@ public class BuscarProdutos extends Fragment {
         }
 
     };
+
+    private Double calculoQuantidadePreco(double preco, int quantidade){
+        return preco * quantidade;
+    }
 
 }

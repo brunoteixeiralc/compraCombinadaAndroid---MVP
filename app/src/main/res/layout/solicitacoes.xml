@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:hint="Digite uma melhoria para ser enviada"
-        android:id="@+id/sugestoes"/>
+        android:id="@+id/sugestoes"
+        android:inputType="text"/>
 
     <Button
         android:text="@string/enviar"

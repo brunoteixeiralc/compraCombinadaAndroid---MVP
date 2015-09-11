@@ -200,6 +200,7 @@ public class DialogFragmentCotacao extends android.support.v4.app.DialogFragment
         spinnerPreferencia.setAdapter(spinnerAdpPreferencia);
 
     }
+
 }
 
 

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minWidth="600dp"
-    android:minHeight="200dp"
+    android:minHeight="220dp"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
     android:paddingLeft="5sp"
@@ -60,12 +60,21 @@
             android:textSize="5pt"
             android:textColor="@color/preto"/>
 
+        <TextView
+            android:id="@+id/txtSelecione"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Selecione sua preferência"
+            android:textSize="10dp"
+            android:layout_marginTop="10dp"/>
+
         <Spinner
             android:id="@+id/pref"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:spinnerMode="dialog"
-            android:prompt="@string/sel_pref"/>
+            android:prompt="@string/sel_pref"
+            android:drawSelectorOnTop="true" />
 
         <LinearLayout
             android:id="@+id/ll_btn"

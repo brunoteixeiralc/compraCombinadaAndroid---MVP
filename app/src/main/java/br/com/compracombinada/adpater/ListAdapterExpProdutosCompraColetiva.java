@@ -14,6 +14,8 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -25,21 +27,21 @@ import br.com.compracombinada.model.Produtos;
 
 public class ListAdapterExpProdutosCompraColetiva extends BaseExpandableListAdapter {
 
-    private Map<String,List<Produtos>>  lista;
     private static LayoutInflater inflater = null;
     private View view;
     private Map<String,List<Produtos>> arraylist;
     private double precoDouble;
     private android.support.v4.app.Fragment fragment;
     private List<String> key;
+    private boolean isDonoEvento;
 
-    public ListAdapterExpProdutosCompraColetiva(android.support.v4.app.Fragment fragment, Map<String,List<Produtos>>  lista) {
-        this.lista = lista;
+    public ListAdapterExpProdutosCompraColetiva(android.support.v4.app.Fragment fragment, Map<String,List<Produtos>>  lista, boolean isDonoEvento) {
         inflater = (LayoutInflater) fragment.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.arraylist = new HashMap<String, List<Produtos>>();
-        this.arraylist.putAll(lista);
+        this.arraylist = lista;
         this.fragment = fragment;
         this.key = new ArrayList<String>(arraylist.keySet());
+        this.isDonoEvento = isDonoEvento;
 
     }
 
@@ -133,7 +135,11 @@ public class ListAdapterExpProdutosCompraColetiva extends BaseExpandableListAdap
             holder.produtoPreferencia.setVisibility(View.GONE);
 
             if(fragment instanceof ListaDetalheCompraColetiva){
-                holder.deletarItem.setVisibility(view.VISIBLE);
+                if(isDonoEvento){
+                    holder.deletarItem.setVisibility(view.VISIBLE);
+                }else {
+                    holder.deletarItem.setVisibility(view.GONE);
+                }
             }else{
                 holder.deletarItem.setVisibility(view.GONE);
             }
@@ -155,7 +161,7 @@ public class ListAdapterExpProdutosCompraColetiva extends BaseExpandableListAdap
             holder = (ViewHolder) view.getTag();
         }
 
-        verificaNaoContem(holder,arraylist.get(key.get(i)).get(i1),view);
+        verificaNaoContem(holder,arraylist.get(key.get(i)).get(i1), view);
 
         verificaPreferencia(holder, arraylist.get(key.get(i)).get(i1));
 
@@ -163,6 +169,7 @@ public class ListAdapterExpProdutosCompraColetiva extends BaseExpandableListAdap
         holder.produtoQuant.setText(arraylist.get(key.get(i)).get(i1).getProduto().getFamilia().getMedida().equalsIgnoreCase("unidade") ? "Quant: " + arraylist.get(key.get(i)).get(i1).getQuantidade() :
                 arraylist.get(key.get(i)).get(i1).getQuantidade() + " gramas");
         holder.usuarioLista.setText("Lista de " + arraylist.get(key.get(i)).get(i1).getUsuarioNome());
+
 
         return view;
     }

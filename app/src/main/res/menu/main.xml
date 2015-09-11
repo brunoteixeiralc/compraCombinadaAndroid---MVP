@@ -14,7 +14,7 @@
         android:id="@+id/add"
         android:title="@string/findProduct"
         app:showAsAction="always"
-        android:icon="@drawable/ic_plus" />
-
+        android:icon="@drawable/ic_plus"
+        android:visible="false"/>
 
 </menu>

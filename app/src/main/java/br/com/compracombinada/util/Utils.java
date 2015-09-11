@@ -58,5 +58,6 @@ public class Utils {
         return dateFmt;
     }
 
-    public static String ip = "http://192.168.25.223:8080/CompraCombinada";
+        //public static String ip = "http://ec2-52-2-254-193.compute-1.amazonaws.com:8080/CompraCombinada";
+        public static String ip = "http://192.168.25.223:8080/CompraCombinada";
 }

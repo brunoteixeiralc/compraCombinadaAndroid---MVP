@@ -23,6 +23,7 @@ import java.util.Locale;
 
 import br.com.compracombinada.ListaDetalheCompraColetiva;
 import br.com.compracombinada.R;
+import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaAddListaProdutoCotacao;
 import br.com.compracombinada.model.Produto;
 
 /**

@@ -11,6 +11,7 @@ public class AsyncTaskCompraColetivaConfiguracao extends AsyncTask<String, Void,
 
     private CompraCobinadaREST compraCobinadaREST = new CompraCobinadaREST();
     private SplashScreen ctx;
+    private String jsonString = null;
 
     public AsyncTaskCompraColetivaConfiguracao(SplashScreen ctx) {
         this.ctx = ctx;
@@ -23,8 +24,6 @@ public class AsyncTaskCompraColetivaConfiguracao extends AsyncTask<String, Void,
 
     @Override
     protected String doInBackground(String... params) {
-
-        String jsonString = null;
 
         try {
 

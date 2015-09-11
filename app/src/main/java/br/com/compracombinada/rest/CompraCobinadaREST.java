@@ -275,5 +275,18 @@ public class CompraCobinadaREST {
         }
     }
 
+    public String getAddListaProdutoCotacao(Produtos produtos) throws Exception {
+
+        String URL_WS = Utils.ip.toString() + "/REST/compracombinada/addListaProdutoCotacao";
+        String[] resposta = new WebServiceCompraCombinada().post(URL_WS, produtos);
+
+        if (resposta[0].equals("200")) {
+            return resposta[1];
+
+        } else {
+            throw new Exception(resposta[1]);
+        }
+    }
+
 
 }

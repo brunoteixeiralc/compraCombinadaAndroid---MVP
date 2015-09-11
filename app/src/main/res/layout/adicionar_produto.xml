@@ -35,29 +35,29 @@
                 android:hint="Descrição Produto"/>
 
 
-            <Spinner
-                android:id="@+id/marca"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dialog"
-                android:prompt="@string/sel_marca"/>
+            <!--<Spinner-->
+                <!--android:id="@+id/marca"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:spinnerMode="dialog"-->
+                <!--android:prompt="@string/sel_marca"/>-->
 
 
-            <Spinner
-                android:id="@+id/familia"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dialog"
-                android:prompt="@string/sel_familia"/>
+            <!--<Spinner-->
+                <!--android:id="@+id/familia"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:spinnerMode="dialog"-->
+                <!--android:prompt="@string/sel_familia"/>-->
 
 
 
-            <Spinner
-                android:id="@+id/divisao"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dialog"
-                android:prompt="@string/sel_divisao"/>
+            <!--<Spinner-->
+                <!--android:id="@+id/divisao"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:spinnerMode="dialog"-->
+                <!--android:prompt="@string/sel_divisao"/>-->
 
 
             <EditText
@@ -75,7 +75,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                android:maxLength="9"
+                android:maxLength="6"
                 android:hint="Seu preço (R$)"/>
 
             <Button

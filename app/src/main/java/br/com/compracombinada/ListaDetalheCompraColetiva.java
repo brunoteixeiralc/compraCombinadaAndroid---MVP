@@ -30,6 +30,7 @@ import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaAddCotacao;
 import br.com.compracombinada.model.Cotacao;
 import br.com.compracombinada.model.ProdutoPreferencia;
 import br.com.compracombinada.model.Produtos;
+import br.com.compracombinada.model.UsuarioSingleton;
 import br.com.compracombinada.sqlite.CompraCombindaDS;
 import br.com.compracombinada.util.DialogFragmentCotacao;
 
@@ -48,11 +49,12 @@ public class ListaDetalheCompraColetiva extends Fragment {
     private TextView valorTotal;
     private Double valorTotalDouble = 0.0;
     private MenuItem item;
-    private int indexListView,topListView;
     private CompraCombindaDS compraCombindaDS;
     private Map<String,List<Produtos>> expListProdutos;
     private List<String> keys;
-
+    private MenuItem itemAdd;
+    private boolean[] groupExpandedArray;
+    private boolean isDonoEvento;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,8 +79,24 @@ public class ListaDetalheCompraColetiva extends Fragment {
 
         cotacao = (Cotacao) getArguments().get("cotacao");
 
+        if(cotacao != null && cotacao.getEvento().getUsuario().getId().equals(UsuarioSingleton.getInstance().getUsuario().getId())){
+            isDonoEvento = true;
+        }
+
         listProdutos = new ArrayList<Produtos>();
         listProdutos.addAll((java.util.Collection<? extends Produtos>) getArguments().get("listProdutosCompraColetiva"));
+
+        //Atualiza o valor total da cotação ao se adicionar um produto novo
+        valorTotalDouble = (Double) getArguments().get("valorTotal");
+        if(valorTotalDouble != null && valorTotalDouble != 0.0){
+
+            DecimalFormat precoFinal = new DecimalFormat("#,#00.00", new DecimalFormatSymbols(new Locale ("pt", "BR")));
+            String formatted = precoFinal.format(valorTotalDouble);
+
+            valorTotal.setText("Valor total de R$ " + formatted);
+        }else{
+            valorTotalDouble = 0.0;
+        }
 
         listView = (ExpandableListView) view.findViewById(R.id.list);
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -91,7 +109,7 @@ public class ListaDetalheCompraColetiva extends Fragment {
 
                 if (!ps.isDeletou()) {
                     if (ps.getPreco() != null)
-                        valorTotalDouble = valorTotalDouble - Double.parseDouble(ps.getPreco().replace(",", "."));
+                        valorTotalDouble = valorTotalDouble - calculoQuantidadePreco(Double.parseDouble(ps.getPreco().replace(",", ".")), ps.getQuantidade());
 
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("produto", ps);
@@ -101,10 +119,10 @@ public class ListaDetalheCompraColetiva extends Fragment {
                     dialogFragmentCotacao.show(ListaDetalheCompraColetiva.this.getActivity().getSupportFragmentManager(), "dialog_cotacao");
                 }
 
-                // save index and top position
-                indexListView = listView.getFirstVisiblePosition();
-                View v = listView.getChildAt(0);
-                topListView = (v == null) ? 0 : (v.getTop() - listView.getPaddingTop());
+                int numberOfGroups = listAdapterProdutos.getGroupCount();
+                groupExpandedArray = new boolean[numberOfGroups];
+                for (int j = 0; j < numberOfGroups; j++)
+                    groupExpandedArray[j] = listView.isGroupExpanded(j);
 
 
                 return false;
@@ -152,19 +170,24 @@ public class ListaDetalheCompraColetiva extends Fragment {
             }
         }
 
-        listAdapterProdutos = new ListAdapterExpProdutosCompraColetiva(this, expListProdutos);
+        //colocar em order alfabética a lista do grupo de alimentos
+        for(Map.Entry<String,List<Produtos>> entry : expListProdutos.entrySet()) {
+
+            Collections.sort(entry.getValue(), new Comparator() {
+
+                @Override
+                public int compare(Object o1, Object o2) {
+                    Produtos p1 = (Produtos) o1;
+                    Produtos p2 = (Produtos) o2;
+                    return p1.getProduto().getNome().compareToIgnoreCase(p2.getProduto().getNome());
+                }
+            });
+
+        }
+
+
+        listAdapterProdutos = new ListAdapterExpProdutosCompraColetiva(this, expListProdutos,isDonoEvento);
         listView.setAdapter(listAdapterProdutos);
-
-        Collections.sort(listProdutos, new Comparator() {
-
-            @Override
-            public int compare(Object o1, Object o2) {
-                Produtos p1 = (Produtos) o1;
-                Produtos p2 = (Produtos) o2;
-                return p1.getProduto().getNome().compareToIgnoreCase(p2.getProduto().getNome());
-            }
-        });
-
 
         return view;
     }
@@ -213,7 +236,8 @@ public class ListaDetalheCompraColetiva extends Fragment {
                                 if (listProdutos.get(i).getPreco().isEmpty())
                                     listProdutos.get(i).setPreco(null);
                                 else
-                                    valorTotalDouble = valorTotalDouble + Double.parseDouble(listProdutos.get(i).getPreco().replace(",","."));
+
+                                    valorTotalDouble = valorTotalDouble + calculoQuantidadePreco(Double.parseDouble(listProdutos.get(i).getPreco().replace(",", ".")), listProdutos.get(i).getQuantidade());
                                 break;
                             }
 
@@ -233,16 +257,34 @@ public class ListaDetalheCompraColetiva extends Fragment {
                         }
                     }
 
-                    listAdapterProdutos = new ListAdapterExpProdutosCompraColetiva(this, expListProdutos);
+                    //colocar em order alfabética a lista do grupo de alimentos
+                    for(Map.Entry<String,List<Produtos>> entry : expListProdutos.entrySet()) {
+
+                        Collections.sort(entry.getValue(), new Comparator() {
+
+                            @Override
+                            public int compare(Object o1, Object o2) {
+                                Produtos p1 = (Produtos) o1;
+                                Produtos p2 = (Produtos) o2;
+                                return p1.getProduto().getNome().compareToIgnoreCase(p2.getProduto().getNome());
+                            }
+                        });
+
+                    }
+
+                    listAdapterProdutos = new ListAdapterExpProdutosCompraColetiva(this, expListProdutos,isDonoEvento);
                     listView.setAdapter(listAdapterProdutos);
-                    listView.setSelectionFromTop(indexListView, topListView);
 
                     DecimalFormat precoFinal = new DecimalFormat("#,#00.00", new DecimalFormatSymbols(new Locale ("pt", "BR")));
                     String formatted = precoFinal.format(valorTotalDouble);
 
                     valorTotal.setText("Valor total de R$ " + formatted);
 
-                    compraCombindaDS.createProdutos(p);
+                    for (int j=0;j<groupExpandedArray.length;j++)
+                        if (groupExpandedArray[j] == true)
+                            listView.expandGroup(j);
+
+                    //compraCombindaDS.createProdutos(p);
 
 
                 } else if (resultCode == Activity.RESULT_CANCELED) {
@@ -263,6 +305,12 @@ public class ListaDetalheCompraColetiva extends Fragment {
 
         item.setVisible(true);
 
+        itemAdd = menu.findItem(R.id.add);
+
+        if(cotacao != null && cotacao.getEvento().getUsuario().getId().equals(UsuarioSingleton.getInstance().getUsuario().getId()))
+            itemAdd.setVisible(true);
+
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -274,6 +322,8 @@ public class ListaDetalheCompraColetiva extends Fragment {
             case R.id.merge:
 
                 for (Produtos p : cotacao.getListaCotacao().getProdutos()) {
+
+                    p.setAdicionado("pre-merge");
 
                     if ((p.getPreco() != null && (!p.isNaoContem() || !p.isDeletou())) || (p.getPreco() == null && (p.isNaoContem() || p.isDeletou()))) {
 
@@ -306,6 +356,8 @@ public class ListaDetalheCompraColetiva extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("listProdutosCompraColetiva", (ArrayList<Produtos>) listProdutos);
                 bundle.putString("fragment", "listaDetalheCompraColetiva");
+                bundle.putDouble("valorTotal", valorTotalDouble);
+                bundle.putSerializable("cotacao", cotacao);
                 fragment = new BuscarProdutos();
                 fragment.setArguments(bundle);
                 FragmentManager fragmentManager = getFragmentManager();
@@ -339,6 +391,11 @@ public class ListaDetalheCompraColetiva extends Fragment {
         String formatted = precoFinal.format(calculoFinal);
 
         return formatted;
+    }
+
+
+    private Double calculoQuantidadePreco(double preco, int quantidade){
+        return preco * quantidade;
     }
 
 }

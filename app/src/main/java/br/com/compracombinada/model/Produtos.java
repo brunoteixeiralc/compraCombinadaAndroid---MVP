@@ -25,6 +25,11 @@ public class Produtos implements Serializable {
 
     private String precoKG;
 
+    private String adicionado;
+
+    private Lista lista;
+
+    private Produto produtoGenerico;
 
     public Integer getId() {
         return id;
@@ -98,5 +103,29 @@ public class Produtos implements Serializable {
 
     public void setPrecoKG(String precoKG) {
         this.precoKG = precoKG;
+    }
+
+    public String getAdicionado() {
+        return adicionado;
+    }
+
+    public void setAdicionado(String adicionado) {
+        this.adicionado = adicionado;
+    }
+
+    public Lista getLista() {
+        return lista;
+    }
+
+    public void setLista(Lista lista) {
+        this.lista = lista;
+    }
+
+    public Produto getProdutoGenerico() {
+        return produtoGenerico;
+    }
+
+    public void setProdutoGenerico(Produto produtoGenerico) {
+        this.produtoGenerico = produtoGenerico;
     }
 }

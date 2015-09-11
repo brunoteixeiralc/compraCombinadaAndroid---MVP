@@ -31,6 +31,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +40,14 @@ import java.util.Locale;
 import java.util.Objects;
 
 import br.com.compracombinada.adpater.SpinnerAdapter;
+import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaAddListaProdutoCotacao;
 import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaAddProduto;
 import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaMarca_Familia;
+import br.com.compracombinada.model.Cotacao;
 import br.com.compracombinada.model.Divisao;
 import br.com.compracombinada.model.Evento;
 import br.com.compracombinada.model.Familia;
+import br.com.compracombinada.model.Lista;
 import br.com.compracombinada.model.Local;
 import br.com.compracombinada.model.Marca;
 import br.com.compracombinada.model.Produto;
@@ -79,6 +84,7 @@ public class AdicionarProduto extends android.support.v4.app.Fragment implements
     private List<Produtos> listProdutos;
     private Produto p;
     private Produtos ps;
+    private Double valorTotalDouble;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -95,51 +101,53 @@ public class AdicionarProduto extends android.support.v4.app.Fragment implements
         listProdutos = new ArrayList<Produtos>();
         listProdutos.addAll((java.util.Collection<? extends Produtos>) getArguments().get("listProdutosCompraColetiva"));
 
-        marca = (Spinner) view.findViewById(R.id.marca);
-        marca.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        valorTotalDouble = (Double) getArguments().get("valorTotal");
 
-                marcaSelecionada = (Marca) adapterView.getItemAtPosition(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        familia = (Spinner) view.findViewById(R.id.familia);
-        familia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                familiaSelecionada = (Familia) adapterView.getItemAtPosition(i);
-                quantidade.setHint(familiaSelecionada.getMedida().equalsIgnoreCase("unidade") ? "Quantidade" : "Gramas");
-                edtPreco.setHint(familiaSelecionada.getMedida().equalsIgnoreCase("unidade") ? "Seu preço (R$)" : "Preço (R$) de 1 KG");
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-
-        divisao = (Spinner) view.findViewById(R.id.divisao);
-        divisao.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                divisaoSelecionada = (Divisao) adapterView.getItemAtPosition(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+//        marca = (Spinner) view.findViewById(R.id.marca);
+//        marca.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//                marcaSelecionada = (Marca) adapterView.getItemAtPosition(i);
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+//
+//        familia = (Spinner) view.findViewById(R.id.familia);
+//        familia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//                familiaSelecionada = (Familia) adapterView.getItemAtPosition(i);
+//                quantidade.setHint(familiaSelecionada.getMedida().equalsIgnoreCase("unidade") ? "Quantidade" : "Gramas");
+//                edtPreco.setHint(familiaSelecionada.getMedida().equalsIgnoreCase("unidade") ? "Seu preço (R$)" : "Preço (R$) de 1 KG");
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+//
+//
+//        divisao = (Spinner) view.findViewById(R.id.divisao);
+//        divisao.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//                divisaoSelecionada = (Divisao) adapterView.getItemAtPosition(i);
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
 
         final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/compracombinada/";
         File newdir = new File(dir);
@@ -160,12 +168,23 @@ public class AdicionarProduto extends android.support.v4.app.Fragment implements
             @Override
             public void onClick(View view) {
 
+//                p = new Produto();
+//                p.setNome(nome.getText().toString());
+//                p.setDescricao(descricaoProduto.getText().toString());
+//                p.setFamilia(familiaSelecionada);
+//                p.setMarca(marcaSelecionada);
+//                p.setDivisao(divisaoSelecionada);
+//                p.setAtivo(false);
+
                 p = new Produto();
                 p.setNome(nome.getText().toString());
                 p.setDescricao(descricaoProduto.getText().toString());
-                p.setFamilia(familiaSelecionada);
-                p.setMarca(marcaSelecionada);
-                p.setDivisao(divisaoSelecionada);
+                p.setFamilia(new Familia());
+                p.getFamilia().setId(1);
+                p.setMarca(new Marca());
+                p.getMarca().setId(1);
+                p.setDivisao(new Divisao());
+                p.getDivisao().setId(1);
                 p.setAtivo(false);
 
                 if (bp != null) {
@@ -181,7 +200,7 @@ public class AdicionarProduto extends android.support.v4.app.Fragment implements
             }
         });
 
-        new AsyncTaskCompraColetivaMarca_Familia(AdicionarProduto.this).execute();
+        //new AsyncTaskCompraColetivaMarca_Familia(AdicionarProduto.this).execute();
 
         return view;
     }
@@ -231,7 +250,7 @@ public class AdicionarProduto extends android.support.v4.app.Fragment implements
 
     public void retornoAsyncTaskCompraCombinadaAddProduto(String jsonResposta){
 
-        if(jsonResposta.equalsIgnoreCase("Produto Adicionado com sucesso")) {
+        if(!jsonResposta.isEmpty()) {
 
             ps = new Produtos();
             ps.setProduto(p);
@@ -244,20 +263,19 @@ public class AdicionarProduto extends android.support.v4.app.Fragment implements
             }
             ps.setNaoContem(false);
 
-            if (ps.getPreco().isEmpty())
-                ps.setPreco(null);
-
-            if(ps.getPrecoKG().isEmpty())
-                ps.setPrecoKG(null);
-
             listProdutos.add(ps);
+
+            valorTotalDouble = valorTotalDouble + Double.parseDouble(edtPreco.getText().toString().replace(",","."));
 
             Bundle bundle = new Bundle();
             bundle.putSerializable("listProdutosCompraColetiva", (ArrayList<Produtos>) listProdutos);
+            bundle.putDouble("valorTotal", valorTotalDouble);
 
             if(getArguments().getString("fragment").equalsIgnoreCase("listaDetalheCompraColetiva")){
+                ps.setAdicionado("pre-merge");
                 fragment = new ListaDetalheCompraColetiva();
             }else{
+                ps.setAdicionado("pos-merge");
                 fragment = new CotacoesListaDetalhe();
             }
 
@@ -266,6 +284,16 @@ public class AdicionarProduto extends android.support.v4.app.Fragment implements
             fragmentManager.beginTransaction()
                     .replace(R.id.container, fragment).addToBackStack(null)
                     .commit();
+
+            //mandar o preço com "." ao invés de "," pois do outro lado é um float
+            Produtos psTemp = ps;
+            psTemp.setPreco(edtPreco.getText().toString().replace(",", "."));
+            psTemp.setLista((Lista) getArguments().getSerializable("listaCotacao"));
+            psTemp.getProduto().setId(Integer.parseInt(jsonResposta));
+
+            //adicionar o produto na lista de cotação
+            new AsyncTaskCompraColetivaAddListaProdutoCotacao(AdicionarProduto.this.getActivity()).execute(psTemp);
+
 
         }else{
 
@@ -294,11 +322,10 @@ public class AdicionarProduto extends android.support.v4.app.Fragment implements
 
             String cleanString = s.toString().replaceAll("[R$,.]", "");
 
-            Locale locale = new Locale("pt", "BR");
-            NumberFormat nf = NumberFormat.getNumberInstance(locale);
+            DecimalFormat precoFinal = new DecimalFormat("#,#00.00", new DecimalFormatSymbols(new Locale ("pt", "BR")));
 
             BigDecimal parsed = new BigDecimal(cleanString).setScale(2, BigDecimal.ROUND_FLOOR).divide(new BigDecimal(100));
-            String formatted = nf.format(parsed);
+            String formatted = precoFinal.format(parsed);
 
             current = formatted;
             edtPreco.setText(current);
