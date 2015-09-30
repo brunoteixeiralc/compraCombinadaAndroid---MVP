@@ -3,8 +3,7 @@ package br.com.compracombinada.asynctask;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
-import br.com.compracombinada.Amizades;
-import br.com.compracombinada.Eventos;
+import br.com.compracombinada.fragment.Eventos;
 import br.com.compracombinada.rest.CompraCobinadaREST;
 
 public class AsyncTaskCompraColetivaEventos extends AsyncTask<Integer, Void, String> {

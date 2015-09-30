@@ -34,5 +34,8 @@
     <string name="sel_divisao">Selecione uma divisão</string>
     <string name="sel_familia">Selecione uma família</string>
     <string name="sel_pref">Selecione sua preferência</string>
+    <string name="cadastrar">Cadastre-se</string>
+    <string name="sucesso_merge">Após a finalização do evento, os produtos mais baratos irão aparecer em suas cotações!</string>
+    <string name="sucesso_finalizar_merge">Evento finalizado com sucesso!</string>
 
 </resources>

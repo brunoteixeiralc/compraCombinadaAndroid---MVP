@@ -5,8 +5,7 @@ import android.os.AsyncTask;
 
 import br.com.compracombinada.model.Produtos;
 import br.com.compracombinada.rest.CompraCobinadaREST;
-import br.com.compracombinada.util.DialogFragmentCotacao;
-import br.com.compracombinada.util.DialogFragmentGramas;
+import br.com.compracombinada.dialog.DialogFragmentGramas;
 
 public class AsyncTaskCompraColetivaGramas extends AsyncTask<Object, Void, String> {
 

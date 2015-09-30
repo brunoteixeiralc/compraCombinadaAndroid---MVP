@@ -1,16 +1,12 @@
 package br.com.compracombinada.rest;
 
 
-import java.util.Objects;
-
-import br.com.compracombinada.Configuracao;
-import br.com.compracombinada.R;
 import br.com.compracombinada.model.Cotacao;
 import br.com.compracombinada.model.Evento;
 import br.com.compracombinada.model.Produto;
 import br.com.compracombinada.model.Produtos;
 import br.com.compracombinada.model.Solicitacoes;
-import br.com.compracombinada.util.Utils;
+import br.com.compracombinada.utils.Utils;
 
 public class CompraCobinadaREST {
 
@@ -175,6 +171,19 @@ public class CompraCobinadaREST {
     public String getListaUsuario(Integer usuarioId) throws Exception {
 
         String URL_WS = Utils.ip.toString() + "/REST/compracombinada/lista/";
+        String[] resposta = new WebServiceCompraCombinada().get(URL_WS + usuarioId);
+
+        if (resposta[0].equals("200")) {
+            return resposta[1];
+
+        } else {
+            throw new Exception(resposta[1]);
+        }
+    }
+
+    public String getListaCotacaoUsuario(Integer usuarioId) throws Exception {
+
+        String URL_WS = Utils.ip.toString() + "/REST/compracombinada/listaCotacaoUsuario/";
         String[] resposta = new WebServiceCompraCombinada().get(URL_WS + usuarioId);
 
         if (resposta[0].equals("200")) {

@@ -6,8 +6,7 @@ import android.os.AsyncTask;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.compracombinada.AdicionarProduto;
-import br.com.compracombinada.BuscarProdutos;
+import br.com.compracombinada.fragment.AdicionarProduto;
 import br.com.compracombinada.rest.CompraCobinadaREST;
 
 public class AsyncTaskCompraColetivaMarca_Familia extends AsyncTask<Void, Void, List<String>> {
@@ -28,7 +27,7 @@ public class AsyncTaskCompraColetivaMarca_Familia extends AsyncTask<Void, Void, 
     @Override
     protected List<String> doInBackground(Void... params) {
 
-        String jsonStringMarca = null;
+       // String jsonStringMarca = null;
         String jsonStringFamilia = null;
         String jsonStringDivisao = null;
 
@@ -36,11 +35,11 @@ public class AsyncTaskCompraColetivaMarca_Familia extends AsyncTask<Void, Void, 
 
         try {
 
-            jsonStringMarca = compraCobinadaREST.getMarcasCompraCombinda();
+          //  jsonStringMarca = compraCobinadaREST.getMarcasCompraCombinda();
             jsonStringFamilia = compraCobinadaREST.getFamiliasCompraCombinda();
             jsonStringDivisao = compraCobinadaREST.getDivisaoCompraCombinda();
 
-            jsons.add(jsonStringMarca);
+          //  jsons.add(jsonStringMarca);
             jsons.add(jsonStringFamilia);
             jsons.add(jsonStringDivisao);
 

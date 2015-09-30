@@ -55,7 +55,7 @@ public class WebServiceCompraCombinada {
             StringEntity stringEntity = new StringEntity(jsonString);
             httpPost.setEntity(stringEntity);
             httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-type", "application/json");
+            httpPost.setHeader("Content-type", "application/json;charset=ISO-8859-1");
 
             response = HttpClientSingleton.getHttpClientInstace().execute(httpPost);
             HttpEntity entity = response.getEntity();

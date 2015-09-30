@@ -3,9 +3,9 @@ package br.com.compracombinada.asynctask;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
-import br.com.compracombinada.LoginActivity;
+import br.com.compracombinada.activity.LoginActivity;
 import br.com.compracombinada.rest.CompraCobinadaREST;
-import br.com.compracombinada.util.Utils;
+import br.com.compracombinada.utils.Utils;
 
 public class AsyncTaskCompraColetivaLogin extends AsyncTask<String, Void, String> {
 

@@ -3,10 +3,7 @@ package br.com.compracombinada.asynctask;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
-import java.util.Objects;
-
-import br.com.compracombinada.Configuracao;
-import br.com.compracombinada.SplashScreen;
+import br.com.compracombinada.fragment.Configuracao;
 import br.com.compracombinada.rest.CompraCobinadaREST;
 
 public class AsyncTaskCompraColetivaConfiguracaoAtualizar extends AsyncTask<Object, Void, String> {

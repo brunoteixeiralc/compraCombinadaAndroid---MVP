@@ -1,16 +1,10 @@
 package br.com.compracombinada.asynctask;
 
-import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import br.com.compracombinada.AdicionarProduto;
-import br.com.compracombinada.BuscarProdutos;
-import br.com.compracombinada.model.Produto;
 import br.com.compracombinada.model.Produtos;
 import br.com.compracombinada.rest.CompraCobinadaREST;
-import br.com.compracombinada.util.DialogFragmentBuscaProduto;
 
 public class AsyncTaskCompraColetivaAddListaProdutoCotacao extends AsyncTask<Object, Void, String> {
 

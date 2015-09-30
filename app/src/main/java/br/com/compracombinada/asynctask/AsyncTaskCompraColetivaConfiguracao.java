@@ -1,10 +1,8 @@
 package br.com.compracombinada.asynctask;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
-import br.com.compracombinada.LoginActivity;
-import br.com.compracombinada.SplashScreen;
+import br.com.compracombinada.activity.SplashScreen;
 import br.com.compracombinada.rest.CompraCobinadaREST;
 
 public class AsyncTaskCompraColetivaConfiguracao extends AsyncTask<String, Void, String> {

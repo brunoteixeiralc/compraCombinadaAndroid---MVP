@@ -3,8 +3,7 @@ package br.com.compracombinada.asynctask;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
-import br.com.compracombinada.ListaDetalheCompraColetiva;
-import br.com.compracombinada.LoginActivity;
+import br.com.compracombinada.fragment.ListaDetalheCompraColetiva;
 import br.com.compracombinada.model.Cotacao;
 import br.com.compracombinada.rest.CompraCobinadaREST;
 

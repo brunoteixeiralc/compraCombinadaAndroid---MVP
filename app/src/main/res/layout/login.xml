@@ -41,9 +41,26 @@
             android:hint="Senha"/>
     </LinearLayout>
 
-    <Button
-        android:text="@string/entrar"
-        android:id="@+id/button"
-        style="@style/MyButton"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:text="@string/entrar"
+            android:id="@+id/button"
+            style="@style/MyButton"
+            android:layout_width="0dp"
+            android:layout_weight="0.1"/>
+
+        <Button
+            android:text="@string/cadastrar"
+            android:id="@+id/btnCadastrar"
+            style="@style/MyButton"
+            android:layout_width="0dp"
+            android:layout_weight="0.1"/>
+
+    </LinearLayout>
 
 </LinearLayout>
