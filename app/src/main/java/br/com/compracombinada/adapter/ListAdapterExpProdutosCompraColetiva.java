@@ -188,7 +188,7 @@ public class ListAdapterExpProdutosCompraColetiva extends BaseExpandableListAdap
 
             if (produtos.getProdutoTempPref() != null) {
                 holder.produtoPreferencia.setVisibility(View.VISIBLE);
-                holder.produtoPreferencia.setText("O produto escolhido foi " + produtos.getProdutoTempPref().getNome());
+                holder.produtoPreferencia.setText("Produto escolhido: " + produtos.getProdutoTempPref().getNome());
             }
 
         }

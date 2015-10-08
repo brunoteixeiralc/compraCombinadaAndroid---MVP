@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,6 +36,7 @@ public class Amizades extends android.support.v4.app.Fragment {
     private List<Amizade> listAmizade;
     private Fragment fragment;
     private List<Amizade> amizades;
+    private TextView msg;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +44,8 @@ public class Amizades extends android.support.v4.app.Fragment {
         view = inflater.inflate(R.layout.list, container, false);
 
         usuario = (Usuario) getArguments().get("usuario");
+
+        msg = (TextView) view.findViewById(R.id.msg);
 
         new AsyncTaskCompraColetivaAmizades(Amizades.this).execute(usuario.getId());
 
@@ -72,9 +76,21 @@ public class Amizades extends android.support.v4.app.Fragment {
 
         convertJsonStringAmizades(jsonString);
 
-        listAdapterAmizade = new ListAdapterAmizade(Amizades.this.getActivity(), amizades);
+        if(amizades.size() > 0){
 
-        listView.setAdapter(listAdapterAmizade);
+            msg.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+
+            listAdapterAmizade = new ListAdapterAmizade(Amizades.this.getActivity(), amizades);
+
+            listView.setAdapter(listAdapterAmizade);
+
+        }else{
+
+            msg.setVisibility(View.VISIBLE);
+            msg.setText("Nenhuma amizade");
+            listView.setVisibility(View.GONE);
+        }
 
     }
 

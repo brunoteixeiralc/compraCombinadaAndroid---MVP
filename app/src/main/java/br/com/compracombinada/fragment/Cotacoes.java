@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -39,15 +40,18 @@ public class Cotacoes extends Fragment {
     private Usuario usuario;
     private ListAdapterCotacoesUsuario listAdapterCotacoesUsuario;
     private List<Cotacao> cotacoesUsuario;
+    private TextView msg;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.cotacao,container,false);
+        view = inflater.inflate(R.layout.cotacao, container, false);
 
         usuario = UsuarioSingleton.getInstance().getUsuario();
 
-        new AsyncTaskCompraColetivaPesquisaCotacoes(Cotacoes.this).execute(usuario.getId());
+        msg = (TextView) view.findViewById(R.id.msg);
+
+       new AsyncTaskCompraColetivaPesquisaCotacoes(Cotacoes.this).execute(usuario.getId());
 
         listView = (ListView) view.findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -84,9 +88,25 @@ public class Cotacoes extends Fragment {
 
         convertJsonStringCotacao(jsonString);
 
-        listAdapterCotacoesUsuario = new ListAdapterCotacoesUsuario(this.getActivity(), cotacoesUsuario);
+        if(cotacoesUsuario.size() > 0){
 
-        listView.setAdapter(listAdapterCotacoesUsuario);
+            msg.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+            btnAtualizar.setVisibility(View.VISIBLE);
+
+            listAdapterCotacoesUsuario = new ListAdapterCotacoesUsuario(this.getActivity(), cotacoesUsuario);
+
+            listView.setAdapter(listAdapterCotacoesUsuario);
+
+        }else{
+
+            msg.setVisibility(View.VISIBLE);
+            msg.setText("Nenhuma cotação");
+            listView.setVisibility(View.GONE);
+            btnAtualizar.setVisibility(View.GONE);
+
+        }
+
 
     }
 
@@ -95,6 +115,12 @@ public class Cotacoes extends Fragment {
         Gson gson = new Gson();
         cotacoesUsuario = new ArrayList<Cotacao>();
         cotacoesUsuario = gson.fromJson(jsonString, new TypeToken<List<Cotacao>>(){}.getType());
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
     }
 

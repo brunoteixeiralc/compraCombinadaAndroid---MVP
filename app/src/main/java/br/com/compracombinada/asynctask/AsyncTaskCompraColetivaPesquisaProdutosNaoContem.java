@@ -18,7 +18,7 @@ public class AsyncTaskCompraColetivaPesquisaProdutosNaoContem extends AsyncTask<
 
     @Override
     protected void onPreExecute() {
-        progressDialog = ProgressDialog.show(ctx.getActivity(), "Compra Combinada", "Pesquisando seus eventos finalizados...", true);
+        progressDialog = ProgressDialog.show(ctx.getActivity(), "Compra Combinada", "Pesquisando os produtos em falta...", true);
     }
 
     @Override

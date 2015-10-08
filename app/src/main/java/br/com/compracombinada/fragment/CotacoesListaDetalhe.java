@@ -53,6 +53,7 @@ public class CotacoesListaDetalhe extends Fragment {
     private MenuItem item;
     private MenuItem itemAdd;
     private boolean[] groupExpandedArray;
+    private boolean isDonoEvento;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +70,11 @@ public class CotacoesListaDetalhe extends Fragment {
         valorTotal.setText("Valor total de R$ 00,00");
 
         cotacao = (Cotacao) getArguments().get("cotacao");
+
+        //verifica se é dono do evento
+        if(cotacao != null && cotacao.getEvento().getUsuario().getId().equals(UsuarioSingleton.getInstance().getUsuario().getId())){
+            isDonoEvento = true;
+        }
 
         if((java.util.Collection<? extends Produtos>) getArguments().get("listProdutosCompraColetiva") != null)
             listProdutos.addAll((java.util.Collection<? extends Produtos>) getArguments().get("listProdutosCompraColetiva"));
@@ -227,9 +233,10 @@ public class CotacoesListaDetalhe extends Fragment {
 
         inflater.inflate(R.menu.main, menu);
 
-        item = menu.findItem(R.id.add);
+        itemAdd = menu.findItem(R.id.add);
 
-        item.setVisible(true);
+        if(isDonoEvento || (cotacao != null && cotacao.getEvento().getUsuario().getId().equals(UsuarioSingleton.getInstance().getUsuario().getId())))
+            itemAdd.setVisible(true);
 
         super.onCreateOptionsMenu(menu, inflater);
     }

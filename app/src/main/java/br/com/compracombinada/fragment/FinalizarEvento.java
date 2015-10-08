@@ -89,6 +89,7 @@ public class FinalizarEvento extends Fragment {
         } else {
 
             msg.setVisibility(View.VISIBLE);
+            msg.setText("Nenhum evento para ser finalizado");
             listView.setVisibility(View.GONE);
         }
 

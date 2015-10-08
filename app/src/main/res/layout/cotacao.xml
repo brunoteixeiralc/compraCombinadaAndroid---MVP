@@ -20,5 +20,14 @@
         android:dividerHeight="1dp"
         android:visibility="visible" />
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/msg"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:textSize="20dp" />
+
 
 </LinearLayout>

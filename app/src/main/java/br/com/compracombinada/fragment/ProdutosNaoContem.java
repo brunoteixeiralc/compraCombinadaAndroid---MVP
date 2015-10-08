@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -34,11 +35,14 @@ public class ProdutosNaoContem extends Fragment {
     private Usuario usuario;
     private ListAdapterEventos listAdapterEventos;
     private List<Evento> eventos;
+    private TextView msg;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.produtos_nao_contem,container,false);
+
+        msg = (TextView) view.findViewById(R.id.msg);
 
         usuario = (Usuario) getArguments().get("usuario");
 
@@ -70,9 +74,21 @@ public class ProdutosNaoContem extends Fragment {
 
         convertJsonStringCotacao(jsonString);
 
-        listAdapterEventos = new ListAdapterEventos(this.getActivity(), eventos);
+        if(eventos.size() > 0){
 
-        listView.setAdapter(listAdapterEventos);
+            msg.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+
+            listAdapterEventos = new ListAdapterEventos(this.getActivity(), eventos);
+
+            listView.setAdapter(listAdapterEventos);
+
+        }else{
+
+            msg.setVisibility(View.VISIBLE);
+            msg.setText("Nenhum produto em falta");
+            listView.setVisibility(View.GONE);
+        }
 
     }
 
@@ -86,7 +102,7 @@ public class ProdutosNaoContem extends Fragment {
 
     @Override
     public void onAttach(Activity activity) {
-        ((MainActivity) activity).onSectionAttached(11);
+        ((MainActivity) activity).onSectionAttached(10);
         super.onAttach(activity);
     }
 

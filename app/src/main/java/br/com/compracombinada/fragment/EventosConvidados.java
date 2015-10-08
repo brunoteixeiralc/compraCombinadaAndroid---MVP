@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -37,11 +38,15 @@ public class EventosConvidados extends Fragment {
     private Fragment fragment;
     private List<EventoConvidado> eventosConvidados;
     private List<Evento> eventos;
+    private TextView msg;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.list, container, false);
+
+        msg = (TextView) view.findViewById(R.id.msg);
 
         usuario = (Usuario) getArguments().get("usuario");
 
@@ -76,14 +81,26 @@ public class EventosConvidados extends Fragment {
 
         convertJsonStringEventosConvidado(jsonString);
 
-        eventos = new ArrayList<Evento>();
-        for (EventoConvidado eventoC : eventosConvidados) {
-            eventos.add(eventoC.getEvento());
+        if(eventosConvidados.size() > 0){
+
+            msg.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+
+            eventos = new ArrayList<Evento>();
+            for (EventoConvidado eventoC : eventosConvidados) {
+                eventos.add(eventoC.getEvento());
+            }
+
+            listAdapterEventos = new ListAdapterEventos(this.getActivity(), eventos);
+
+            listView.setAdapter(listAdapterEventos);
+
+        }else{
+
+            msg.setVisibility(View.VISIBLE);
+            msg.setText("Nenhum evento convidado");
+            listView.setVisibility(View.GONE);
         }
-
-        listAdapterEventos = new ListAdapterEventos(this.getActivity(), eventos);
-
-        listView.setAdapter(listAdapterEventos);
 
     }
 

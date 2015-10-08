@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,11 +36,14 @@ public class Eventos extends android.support.v4.app.Fragment {
     private ListAdapterEventos listAdapterEventos;
     private Fragment fragment;
     private List<Evento> eventos;
+    private TextView msg;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.list, container, false);
+
+        msg = (TextView) view.findViewById(R.id.msg);
 
         usuario = (Usuario) getArguments().get("usuario");
 
@@ -73,9 +77,21 @@ public class Eventos extends android.support.v4.app.Fragment {
 
         convertJsonStringEventos(jsonString);
 
-        listAdapterEventos = new ListAdapterEventos(Eventos.this.getActivity(), eventos);
+        if (eventos.size() > 0) {
 
-        listView.setAdapter(listAdapterEventos);
+            msg.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+
+            listAdapterEventos = new ListAdapterEventos(Eventos.this.getActivity(), eventos);
+
+            listView.setAdapter(listAdapterEventos);
+
+        }else{
+
+            msg.setVisibility(View.VISIBLE);
+            msg.setText("Nenhum eventos");
+            listView.setVisibility(View.GONE);
+        }
 
     }
 

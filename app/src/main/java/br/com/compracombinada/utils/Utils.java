@@ -20,7 +20,7 @@ import br.com.compracombinada.model.Usuario;
 public class Utils {
 
    //public static String ip = "http://ec2-52-2-254-193.compute-1.amazonaws.com:8080/CompraCombinada";
-    public static String ip = "http://192.168.25.8:8080/CompraCombinada";
+   public static String ip = "http://192.168.25.8:8080/CompraCombinada";
 
     public static Object convertJsonStringToObject(String jsonString) {
 

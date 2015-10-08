@@ -334,7 +334,7 @@ public class ListaDetalheCompraColetiva extends Fragment {
 
         itemAdd = menu.findItem(R.id.add);
 
-        if(cotacao != null && cotacao.getEvento().getUsuario().getId().equals(UsuarioSingleton.getInstance().getUsuario().getId()))
+        if(isDonoEvento || (cotacao != null && cotacao.getEvento().getUsuario().getId().equals(UsuarioSingleton.getInstance().getUsuario().getId())))
             itemAdd.setVisible(true);
 
 
