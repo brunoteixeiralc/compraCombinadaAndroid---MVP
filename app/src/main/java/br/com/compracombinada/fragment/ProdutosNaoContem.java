@@ -86,7 +86,7 @@ public class ProdutosNaoContem extends Fragment {
         }else{
 
             msg.setVisibility(View.VISIBLE);
-            msg.setText("Nenhum produto em falta");
+            msg.setText("Nenhum evento finalizado");
             listView.setVisibility(View.GONE);
         }
 

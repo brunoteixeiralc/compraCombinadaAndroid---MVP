@@ -155,6 +155,19 @@ public class CompraCobinadaREST {
         }
     }
 
+    public String getProdutosFalta(Integer usuarioId) throws Exception {
+
+        String URL_WS = Utils.ip.toString() + "/REST/compracombinada/produtoFalta/";
+        String[] resposta = new WebServiceCompraCombinada().get(URL_WS + usuarioId);
+
+        if (resposta[0].equals("200")) {
+            return resposta[1];
+
+        } else {
+            throw new Exception(resposta[1]);
+        }
+    }
+
     public String getAmizadeUsuario(Integer usuarioId) throws Exception {
 
         String URL_WS = Utils.ip.toString() + "/REST/compracombinada/amizade/";

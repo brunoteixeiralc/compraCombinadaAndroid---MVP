@@ -28,7 +28,7 @@ public class AsyncTaskCompraColetivaPesquisaProdutosNaoContem extends AsyncTask<
 
         try {
 
-            jsonString = compraCobinadaREST.getEventosFinalizadosUsuario(params[0]);
+            jsonString = compraCobinadaREST.getProdutosFalta(params[0]);
 
         } catch (Exception e) {
 

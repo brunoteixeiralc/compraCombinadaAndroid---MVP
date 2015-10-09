@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,11 +36,14 @@ public class ProdutosNaoContemListaDetalhe extends Fragment {
     private ListAdapterProdutosCompraColetiva listAdapterProdutos;
     private Fragment fragment;
     private List<Produtos> produtosQueFaltam;
+    private TextView msg;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.list, container, false);
+
+        msg = (TextView) view.findViewById(R.id.msg);
 
         setHasOptionsMenu(true);
 
@@ -87,18 +91,33 @@ public class ProdutosNaoContemListaDetalhe extends Fragment {
             produtosQueFaltam = gson.fromJson(jsonString, new TypeToken<List<Produtos>>() {
             }.getType());
 
-            listAdapterProdutos = new ListAdapterProdutosCompraColetiva(this, produtosQueFaltam);
-            listView.setAdapter(listAdapterProdutos);
+            if(produtosQueFaltam.size() > 0){
 
-            Collections.sort(produtosQueFaltam, new Comparator() {
+                msg.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
 
-                @Override
-                public int compare(Object o1, Object o2) {
-                    Produtos p1 = (Produtos) o1;
-                    Produtos p2 = (Produtos) o2;
-                    return p1.getProduto().getNome().compareToIgnoreCase(p2.getProduto().getNome());
-                }
-            });
+
+                listAdapterProdutos = new ListAdapterProdutosCompraColetiva(this, produtosQueFaltam);
+                listView.setAdapter(listAdapterProdutos);
+
+                Collections.sort(produtosQueFaltam, new Comparator() {
+
+                    @Override
+                    public int compare(Object o1, Object o2) {
+                        Produtos p1 = (Produtos) o1;
+                        Produtos p2 = (Produtos) o2;
+                        return p1.getProduto().getNome().compareToIgnoreCase(p2.getProduto().getNome());
+                    }
+                });
+
+            }else{
+
+                msg.setVisibility(View.VISIBLE);
+                msg.setText("Nenhum produto em falta");
+                listView.setVisibility(View.GONE);
+            }
+
+
         }
     }
 
