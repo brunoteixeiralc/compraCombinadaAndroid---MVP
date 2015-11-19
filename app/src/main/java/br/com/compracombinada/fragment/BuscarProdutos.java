@@ -107,12 +107,12 @@ public class BuscarProdutos extends Fragment {
                 p.setDescricao(al.get(2).toString());
             if(al.get(3) != null)
                  p.setFoto(al.get(3).toString());
-            p.setPreferencia(Integer.parseInt(al.get(4).toString().replace(".0", "")));
+           // p.setPreferencia(Integer.parseInt(al.get(4).toString().replace(".0", "")));
             p.setFamilia(new Familia());
-            p.getFamilia().setNome(al.get(5).toString());
-            p.getFamilia().setMedida(al.get(7).toString());
+            p.getFamilia().setNome(al.get(4).toString());
+            p.getFamilia().setMedida(al.get(6).toString());
             p.setDivisao(new Divisao());
-            p.getDivisao().setNome(al.get(6).toString());
+            p.getDivisao().setNome(al.get(5).toString());
 
             listProdutosBusca.add(p);
         }

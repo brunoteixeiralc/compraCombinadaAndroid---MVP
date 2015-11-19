@@ -1,6 +1,7 @@
 package br.com.compracombinada.dialog;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -49,6 +50,7 @@ public class DialogFragmentCotacao extends android.support.v4.app.DialogFragment
     private Spinner spinnerPreferencia;
     private List<Object> produtoPreferencias;
     private ProdutoPreferencia produtoPreferenciaSelecionado;
+    private Integer usuarioDonoEventoId;
 
     public static DialogFragmentCotacao newInstance() {
         DialogFragmentCotacao f = new DialogFragmentCotacao();
@@ -61,6 +63,7 @@ public class DialogFragmentCotacao extends android.support.v4.app.DialogFragment
                              Bundle savedInstanceState) {
 
         produtos = (Produtos) getArguments().getSerializable("produto");
+        usuarioDonoEventoId = getArguments().getInt("usuarioDonoEvento");
 
         if (produtos.getProduto().getPreferencia() == 1) {
 
@@ -80,7 +83,18 @@ public class DialogFragmentCotacao extends android.support.v4.app.DialogFragment
                 }
             });
 
-            new AsyncTaskCompraColetivaPreferencias(DialogFragmentCotacao.this).execute(produtos.getProduto().getId());
+             if(produtos.getProduto().getProdutoPreferencias() != null){
+
+                SpinnerAdapter spinnerAdpPreferencia = new SpinnerAdapter(produtos.getProduto().getProdutoPreferencias(),DialogFragmentCotacao.this.getActivity(), SpinnerEnum.PREFERENCIA);
+                spinnerPreferencia.setAdapter(spinnerAdpPreferencia);
+
+
+            }else{
+
+                new AsyncTaskCompraColetivaPreferencias(DialogFragmentCotacao.this).execute(produtos.getProduto().getId(),usuarioDonoEventoId);
+            }
+
+
 
         }else {
 
@@ -119,10 +133,30 @@ public class DialogFragmentCotacao extends android.support.v4.app.DialogFragment
 
                 getActivity().getIntent().putExtra("preco", edtPreco.getText().toString());
                 getActivity().getIntent().putExtra("naoContem", checkNaoContem.isChecked());
-                if(produtos.getProduto().getPreferencia() == 1)
+                if(produtos.getProduto().getPreferencia() == 1) {
+
                     getActivity().getIntent().putExtra("produtoPreferencia", produtoPreferenciaSelecionado);
 
-                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, getActivity().getIntent());
+                    if(produtoPreferenciaSelecionado != null) {
+
+                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, getActivity().getIntent());
+
+                    }else{
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(DialogFragmentCotacao.this.getActivity());
+                        builder.setMessage("Selecione o seu produto de preferência.")
+                                .setTitle("Alerta Compra Combinada");
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+
+                    }
+
+                }else{
+
+                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, getActivity().getIntent());
+                }
+
+
 
             }
         });
@@ -189,6 +223,8 @@ public class DialogFragmentCotacao extends android.support.v4.app.DialogFragment
         Gson gson = new Gson();
         produtoPreferencias = gson.fromJson(jsonString, new TypeToken<List<ProdutoPreferencia>>() {
         }.getType());
+
+        produtos.getProduto().setProdutoPreferencias(produtoPreferencias);
 
         SpinnerAdapter spinnerAdpPreferencia = new SpinnerAdapter(produtoPreferencias,DialogFragmentCotacao.this.getActivity(), SpinnerEnum.PREFERENCIA);
         spinnerPreferencia.setAdapter(spinnerAdpPreferencia);

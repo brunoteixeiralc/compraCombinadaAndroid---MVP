@@ -220,10 +220,10 @@ public class CompraCobinadaREST {
         }
     }
 
-    public String getPreferenciasProduto(Integer produtoId) throws Exception {
+    public String getPreferenciasProduto(Integer produtoId,Integer usuarioId) throws Exception {
 
         String URL_WS = Utils.ip.toString() + "/REST/compracombinada/preferencia/";
-        String[] resposta = new WebServiceCompraCombinada().get(URL_WS + produtoId);
+        String[] resposta = new WebServiceCompraCombinada().get(URL_WS + produtoId + "/" + usuarioId);
 
         if (resposta[0].equals("200")) {
             return resposta[1];

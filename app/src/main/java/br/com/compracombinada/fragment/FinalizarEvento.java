@@ -68,6 +68,7 @@ public class FinalizarEvento extends Fragment {
             }
         });
 
+
         return view;
     }
 
@@ -106,7 +107,7 @@ public class FinalizarEvento extends Fragment {
 
     @Override
     public void onAttach(Activity activity) {
-        ((MainActivity) activity).onSectionAttached(7);
+        ((MainActivity) activity).onSectionAttached(4);
         super.onAttach(activity);
     }
 

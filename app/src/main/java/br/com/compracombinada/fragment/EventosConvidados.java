@@ -50,8 +50,6 @@ public class EventosConvidados extends Fragment {
 
         usuario = (Usuario) getArguments().get("usuario");
 
-        new AsyncTaskCompraColetivaEventosConvidados(EventosConvidados.this).execute(usuario.getId());
-
         listView = (ListView) view.findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -70,6 +68,13 @@ public class EventosConvidados extends Fragment {
 
             }
         });
+
+        if(eventos == null){
+            new AsyncTaskCompraColetivaEventosConvidados(EventosConvidados.this).execute(usuario.getId());
+        }else{
+            listAdapterEventos = new ListAdapterEventos(this.getActivity(), eventos);
+            listView.setAdapter(listAdapterEventos);
+        }
 
         return view;
     }

@@ -1,6 +1,7 @@
 package br.com.compracombinada.dialog;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -72,8 +73,18 @@ public class DialogFragmentBuscaProduto extends android.support.v4.app.DialogFra
             @Override
             public void onClick(View view) {
 
-                new AsyncTaskCompraColetivaListaCotacaoBusca(DialogFragmentBuscaProduto.this).execute(UsuarioSingleton.getInstance().getUsuario().getId());
+                if(valida()) {
 
+                    new AsyncTaskCompraColetivaListaCotacaoBusca(DialogFragmentBuscaProduto.this).execute(UsuarioSingleton.getInstance().getUsuario().getId());
+
+                }else{
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DialogFragmentBuscaProduto.this.getActivity());
+                    builder.setMessage("Preço e Quantidade são obrigatórios!")
+                            .setTitle(DialogFragmentBuscaProduto.this.getActivity().getResources().getString(R.string.app_name));
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
             }
         });
         btnCancelar = (Button) view.findViewById(R.id.btnCancel);
@@ -87,6 +98,14 @@ public class DialogFragmentBuscaProduto extends android.support.v4.app.DialogFra
 
 
         return view;
+
+    }
+
+    private boolean valida(){
+
+        if(edtPreco.getText().toString().isEmpty() || edtQuantidade.getText().toString().isEmpty())
+            return false;
+        return true;
 
     }
 

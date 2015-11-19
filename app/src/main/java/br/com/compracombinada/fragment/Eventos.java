@@ -47,7 +47,7 @@ public class Eventos extends android.support.v4.app.Fragment {
 
         usuario = (Usuario) getArguments().get("usuario");
 
-        new AsyncTaskCompraColetivaEventos(Eventos.this).execute(usuario.getId());
+
 
         listView = (ListView) view.findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -67,6 +67,13 @@ public class Eventos extends android.support.v4.app.Fragment {
 
             }
         });
+
+        if(eventos == null){
+            new AsyncTaskCompraColetivaEventos(Eventos.this).execute(usuario.getId());
+        }else{
+            listAdapterEventos = new ListAdapterEventos(Eventos.this.getActivity(), eventos);
+            listView.setAdapter(listAdapterEventos);
+        }
 
         return view;
     }

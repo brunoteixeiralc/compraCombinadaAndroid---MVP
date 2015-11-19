@@ -170,27 +170,39 @@ public class AdicionarProduto extends android.support.v4.app.Fragment implements
 //                p.setDivisao(divisaoSelecionada);
 //                p.setAtivo(false);
 
-                p = new Produto();
-                p.setNome(nome.getText().toString());
-                p.setDescricao(descricaoProduto.getText().toString());
-                p.setFamilia(familiaSelecionada);
-               // p.getFamilia().setId(1);
-                p.setMarca(new Marca());
-                p.getMarca().setId(1);
-                p.setDivisao(divisaoSelecionada);
-                //p.getDivisao().setId(1);
-                p.setAtivo(false);
+                if (valida()) {
 
-                if (bp != null) {
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    byte[] byteArray = stream.toByteArray();
-                    String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                    p.setFoto(encoded);
+                    p = new Produto();
+                    p.setNome(nome.getText().toString());
+                    p.setDescricao(descricaoProduto.getText().toString());
+                    p.setFamilia(familiaSelecionada);
+                    // p.getFamilia().setId(1);
+                    p.setMarca(new Marca());
+                    p.getMarca().setId(1);
+                    p.setDivisao(divisaoSelecionada);
+                    //p.getDivisao().setId(1);
+                    p.setAtivo(false);
+
+                    if (bp != null) {
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        byte[] byteArray = stream.toByteArray();
+                        String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                        p.setFoto(encoded);
+                    }
+
+                    new AsyncTaskCompraColetivaAddProduto(AdicionarProduto.this).execute(p);
+
                 }
+                else{
 
-                new AsyncTaskCompraColetivaAddProduto(AdicionarProduto.this).execute(p);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AdicionarProduto.this.getActivity());
+                    builder.setMessage("Nome, Quantidade e Preço são obrigatórios!")
+                            .setTitle(AdicionarProduto.this.getActivity().getResources().getString(R.string.app_name));
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
 
+                }
             }
         });
 
@@ -240,6 +252,14 @@ public class AdicionarProduto extends android.support.v4.app.Fragment implements
             foto.setImageBitmap(bp);
 
         }
+    }
+
+    private boolean valida(){
+
+        if(nome.getText().toString().isEmpty() || quantidade.getText().toString().isEmpty() || edtPreco.getText().toString().isEmpty())
+            return false;
+        return true;
+
     }
 
     public void retornoAsyncTaskCompraCombinadaAddProduto(String jsonResposta){

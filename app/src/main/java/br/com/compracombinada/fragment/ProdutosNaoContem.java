@@ -46,7 +46,7 @@ public class ProdutosNaoContem extends Fragment {
 
         usuario = (Usuario) getArguments().get("usuario");
 
-        new AsyncTaskCompraColetivaPesquisaProdutosNaoContem(ProdutosNaoContem.this).execute(usuario.getId());
+
 
         listView = (ListView) view.findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -65,6 +65,13 @@ public class ProdutosNaoContem extends Fragment {
 
             }
         });
+
+        if(eventos == null){
+            new AsyncTaskCompraColetivaPesquisaProdutosNaoContem(ProdutosNaoContem.this).execute(usuario.getId());
+        }else{
+            listAdapterEventos = new ListAdapterEventos(this.getActivity(), eventos);
+            listView.setAdapter(listAdapterEventos);
+        }
 
 
         return view;
@@ -102,7 +109,7 @@ public class ProdutosNaoContem extends Fragment {
 
     @Override
     public void onAttach(Activity activity) {
-        ((MainActivity) activity).onSectionAttached(10);
+        ((MainActivity) activity).onSectionAttached(5);
         super.onAttach(activity);
     }
 

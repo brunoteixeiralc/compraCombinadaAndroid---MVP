@@ -37,6 +37,7 @@ import br.com.compracombinada.asynctask.AsyncTaskCompraColetivaAddCotacao;
 import br.com.compracombinada.model.Cotacao;
 import br.com.compracombinada.model.ProdutoPreferencia;
 import br.com.compracombinada.model.Produtos;
+import br.com.compracombinada.model.Usuario;
 import br.com.compracombinada.model.UsuarioSingleton;
 import br.com.compracombinada.dialog.DialogFragmentCotacao;
 
@@ -64,6 +65,48 @@ public class ListaDetalheCompraColetiva extends Fragment {
     public static final String PREFS_NAME = "offline";
     private SharedPreferences sharedPreferences;
     private boolean fezMerge;
+    final Thread.UncaughtExceptionHandler oldHandler = Thread.getDefaultUncaughtExceptionHandler();
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(
+                new Thread.UncaughtExceptionHandler() {
+                    @Override
+                    public void uncaughtException(
+                            Thread paramThread,
+                            Throwable paramThrowable
+                    ) {
+
+                        SharedPreferences settings = ListaDetalheCompraColetiva.this.getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                        boolean success = settings.edit().remove(String.valueOf(UsuarioSingleton.getInstance().getUsuario().getId() + ";" +
+                                cotacao.getEvento().getId())).commit();
+                        if(!success){
+                            Log.e("Erro compracombinada","Erro ao deletar");
+                        }
+
+                        if(!fezMerge) {
+
+                            Gson gson = new Gson();
+                            jsonProdutos = gson.toJson(listProdutos);
+
+                            boolean successInsert = settings.edit().putString(String.valueOf(UsuarioSingleton.getInstance().getUsuario().getId() + ";" +
+                                    cotacao.getEvento().getId()), jsonProdutos).commit();
+                            if (!successInsert) {
+                                Log.e("Erro compracombinada", "Erro ao inserir");
+                            }
+                        }
+
+                        if (oldHandler != null)
+                            oldHandler.uncaughtException(
+                                    paramThread,
+                                    paramThrowable
+                            ); //Delegates to Android's error handling
+                        else
+                            System.exit(2); //Prevents the service/app from freezing
+                    }
+                });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,7 +132,8 @@ public class ListaDetalheCompraColetiva extends Fragment {
 
         //pegar os produtos caso tenha tido algum problema na cotação
         sharedPreferences = ListaDetalheCompraColetiva.this.getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        jsonProdutos = sharedPreferences.getString(String.valueOf(cotacao.getEvento().getId()), null);
+        jsonProdutos = sharedPreferences.getString(String.valueOf(UsuarioSingleton.getInstance().getUsuario().getId() + ";" +
+                cotacao.getEvento().getId()), null);
         if(jsonProdutos != null) {
 
             Gson gson = new Gson();
@@ -134,12 +178,15 @@ public class ListaDetalheCompraColetiva extends Fragment {
                 keys = new ArrayList<String>(expListProdutos.keySet());
 
                 Produtos ps = expListProdutos.get(keys.get(i)).get(i1);
+                Integer usuarioDonoEventoId = cotacao.getEvento().getUsuario().getId();
 
                 if (!ps.isDeletou()) {
-                    if (ps.getPreco() != null)
-                        valorTotalDouble = valorTotalDouble - calculoQuantidadePreco(Double.parseDouble(ps.getPreco().replace(",", ".")), ps.getQuantidade());
+//                    if (ps.getPreco() != null)
+//                        valorTotalDouble = valorTotalDouble - calculoQuantidadePreco(Double.parseDouble(ps.getPreco().replace(",", ".")), ps.getQuantidade());
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("produto", ps);
+                    bundle.putInt("usuarioDonoEvento", usuarioDonoEventoId);
+                  //  bundle.putDouble("valorTotalDouble", valorTotalDouble);
                     dialogFragmentCotacao = DialogFragmentCotacao.newInstance();
                     dialogFragmentCotacao.setArguments(bundle);
                     dialogFragmentCotacao.setTargetFragment(ListaDetalheCompraColetiva.this, 1);
@@ -240,37 +287,69 @@ public class ListaDetalheCompraColetiva extends Fragment {
                     for (int i = 0; i < listProdutos.size(); i++) {
                         if (p.equals(listProdutos.get(i))) {
 
-                            if(data.getSerializableExtra("produtoPreferencia") != null) {
+                            if (data.getSerializableExtra("produtoPreferencia") != null) {
                                 listProdutos.get(i).setProdutoTempPref(((ProdutoPreferencia) data.getSerializableExtra("produtoPreferencia")).getProduto());
                                 data.removeExtra("produtoPreferencia");
                             }
 
                             listProdutos.get(i).setNaoContem(data.getBooleanExtra("naoContem", false));
 
-                            if(listProdutos.get(i).getProduto().getFamilia().getMedida().equalsIgnoreCase("quilo")){
+                                if (listProdutos.get(i).getProduto().getFamilia().getMedida().equalsIgnoreCase("quilo")) {
 
-                                listProdutos.get(i).setPrecoKG(data.getStringExtra("preco"));
+                                    if (listProdutos.get(i).isNaoContem()) {
 
-                                listProdutos.get(i).setPreco(calculoKG(listProdutos.get(i).getQuantidade(), listProdutos.get(i).getPrecoKG()));
+                                        if (listProdutos.get(i).getPreco() != null) {
 
-                                if (listProdutos.get(i).getPrecoKG().isEmpty())
-                                    listProdutos.get(i).setPrecoKG(null);
-                                else
-                                    valorTotalDouble = valorTotalDouble + Double.parseDouble(listProdutos.get(i).getPreco().replace(",","."));
-                                break;
+                                            valorTotalDouble = valorTotalDouble - Double.parseDouble(listProdutos.get(i).getPreco().replace(",", "."));
+                                        }
 
-                            }else{
+                                    } else {
 
-                                listProdutos.get(i).setPreco(data.getStringExtra("preco"));
+                                        if (!data.getStringExtra("preco").isEmpty()) {
 
-                                if (listProdutos.get(i).getPreco().isEmpty())
-                                    listProdutos.get(i).setPreco(null);
-                                else
+                                            if (listProdutos.get(i).getPreco() != null) {
 
-                                    valorTotalDouble = valorTotalDouble + calculoQuantidadePreco(Double.parseDouble(listProdutos.get(i).getPreco().replace(",", ".")), listProdutos.get(i).getQuantidade());
-                                break;
-                            }
+                                                valorTotalDouble = valorTotalDouble - Double.parseDouble(listProdutos.get(i).getPreco().replace(",", "."));
+                                            }
 
+                                            listProdutos.get(i).setPrecoKG(data.getStringExtra("preco"));
+
+                                            listProdutos.get(i).setPreco(calculoKG(listProdutos.get(i).getQuantidade(), listProdutos.get(i).getPrecoKG()));
+
+                                            if (listProdutos.get(i).getPrecoKG().isEmpty())
+                                                listProdutos.get(i).setPrecoKG(null);
+                                            else
+                                                valorTotalDouble = valorTotalDouble + Double.parseDouble(listProdutos.get(i).getPreco().replace(",", "."));
+                                        }
+                                    }
+
+                                    break;
+
+                                } else {
+
+                                    if (listProdutos.get(i).isNaoContem()) {
+
+                                        if (listProdutos.get(i).getPreco() != null)
+                                            valorTotalDouble = valorTotalDouble - calculoQuantidadePreco(Double.parseDouble(listProdutos.get(i).getPreco().replace(",", ".")), listProdutos.get(i).getQuantidade());
+
+                                    } else {
+
+                                        if (!data.getStringExtra("preco").isEmpty()) {
+
+                                            if (listProdutos.get(i).getPreco() != null)
+                                                valorTotalDouble = valorTotalDouble - calculoQuantidadePreco(Double.parseDouble(listProdutos.get(i).getPreco().replace(",", ".")), listProdutos.get(i).getQuantidade());
+
+                                            listProdutos.get(i).setPreco(data.getStringExtra("preco"));
+
+                                            if (listProdutos.get(i).getPreco().isEmpty())
+                                                listProdutos.get(i).setPreco(null);
+                                            else
+                                                valorTotalDouble = valorTotalDouble + calculoQuantidadePreco(Double.parseDouble(listProdutos.get(i).getPreco().replace(",", ".")), listProdutos.get(i).getQuantidade());
+                                        }
+                                    }
+
+                                    break;
+                                }
                         }
                     }
 
@@ -382,12 +461,26 @@ public class ListaDetalheCompraColetiva extends Fragment {
 
             case R.id.add:
 
+                //BUSCAR PRODUTO CODE
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("listProdutosCompraColetiva", (ArrayList<Produtos>) listProdutos);
+//                bundle.putString("fragment", "listaDetalheCompraColetiva");
+//                bundle.putDouble("valorTotal", valorTotalDouble);
+//                bundle.putSerializable("cotacao", cotacao);
+//                fragment = new BuscarProdutos();
+//                fragment.setArguments(bundle);
+//                FragmentManager fragmentManager = getFragmentManager();
+//                fragmentManager.beginTransaction()
+//                        .replace(R.id.container, fragment).addToBackStack(null)
+//                        .commit();
+
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("listProdutosCompraColetiva", (ArrayList<Produtos>) listProdutos);
                 bundle.putString("fragment", "listaDetalheCompraColetiva");
                 bundle.putDouble("valorTotal", valorTotalDouble);
+                bundle.putSerializable("listaCotacao", cotacao.getListaCotacao());
                 bundle.putSerializable("cotacao", cotacao);
-                fragment = new BuscarProdutos();
+                fragment = new AdicionarProduto();
                 fragment.setArguments(bundle);
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction()
@@ -398,7 +491,8 @@ public class ListaDetalheCompraColetiva extends Fragment {
                 fezMerge = true;
 
                 sharedPreferences = ListaDetalheCompraColetiva.this.getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-                boolean success = sharedPreferences.edit().remove(String.valueOf(cotacao.getEvento().getId())).commit();
+                boolean success = sharedPreferences.edit().remove(String.valueOf(UsuarioSingleton.getInstance().getUsuario().getId() + ";"
+                        +cotacao.getEvento().getId())).commit();
                 if (!success) {
                     Log.e("Erro compracombinada", "Erro ao deletar");
                 }
@@ -418,7 +512,8 @@ public class ListaDetalheCompraColetiva extends Fragment {
                 .commit();
 
         sharedPreferences = ListaDetalheCompraColetiva.this.getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        boolean success = sharedPreferences.edit().remove(String.valueOf(cotacao.getEvento().getId())).commit();
+        boolean success = sharedPreferences.edit().remove(String.valueOf(UsuarioSingleton.getInstance().getUsuario().getId() + ";" +
+                cotacao.getEvento().getId())).commit();
         if (!success) {
             Log.e("Erro compracombinada","Erro ao deletar");
         }
@@ -447,7 +542,8 @@ public class ListaDetalheCompraColetiva extends Fragment {
     public void onDestroy() {
 
         sharedPreferences = ListaDetalheCompraColetiva.this.getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        boolean success = sharedPreferences.edit().remove(String.valueOf(cotacao.getEvento().getId())).commit();
+        boolean success = sharedPreferences.edit().remove(String.valueOf(UsuarioSingleton.getInstance().getUsuario().getId() + ";" +
+                cotacao.getEvento().getId())).commit();
         if (!success) {
             Log.e("Erro compracombinada", "Erro ao deletar");
         }
@@ -457,7 +553,8 @@ public class ListaDetalheCompraColetiva extends Fragment {
             Gson gson = new Gson();
             jsonProdutos = gson.toJson(listProdutos);
 
-            boolean successInsert = sharedPreferences.edit().putString(String.valueOf(cotacao.getEvento().getId()), jsonProdutos).commit();
+            boolean successInsert = sharedPreferences.edit().putString(String.valueOf(UsuarioSingleton.getInstance().getUsuario().getId() + ";" +
+                    cotacao.getEvento().getId()), jsonProdutos).commit();
             if (!successInsert) {
                 Log.e("Erro compracombinada", "Erro ao inserir");
             }
@@ -472,7 +569,8 @@ public class ListaDetalheCompraColetiva extends Fragment {
     public void onPause() {
 
         SharedPreferences settings = ListaDetalheCompraColetiva.this.getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        boolean success = settings.edit().remove(String.valueOf(cotacao.getEvento().getId())).commit();
+        boolean success = settings.edit().remove(String.valueOf(UsuarioSingleton.getInstance().getUsuario().getId() + ";" +
+                cotacao.getEvento().getId())).commit();
         if(!success){
             Log.e("Erro compracombinada","Erro ao deletar");
         }
@@ -482,7 +580,8 @@ public class ListaDetalheCompraColetiva extends Fragment {
             Gson gson = new Gson();
             jsonProdutos = gson.toJson(listProdutos);
 
-            boolean successInsert = settings.edit().putString(String.valueOf(cotacao.getEvento().getId()), jsonProdutos).commit();
+            boolean successInsert = settings.edit().putString(String.valueOf(UsuarioSingleton.getInstance().getUsuario().getId() + ";" +
+                    cotacao.getEvento().getId()), jsonProdutos).commit();
             if (!successInsert) {
                 Log.e("Erro compracombinada", "Erro ao inserir");
             }
@@ -490,9 +589,6 @@ public class ListaDetalheCompraColetiva extends Fragment {
 
         super.onPause();
     }
-
-
-
 
 
 }

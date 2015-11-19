@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.compracombinada.R;
 import br.com.compracombinada.fragment.AdicionarProduto;
 import br.com.compracombinada.rest.CompraCobinadaREST;
 
@@ -21,7 +22,7 @@ public class AsyncTaskCompraColetivaMarca_Familia extends AsyncTask<Void, Void, 
 
     @Override
     protected void onPreExecute() {
-        progressDialog = ProgressDialog.show(ctx.getActivity(), "Compra Combinada", "Buscando dados...", true);
+        progressDialog = ProgressDialog.show(ctx.getActivity(), ctx.getResources().getString(R.string.app_name), "Buscando dados...", true);
     }
 
     @Override

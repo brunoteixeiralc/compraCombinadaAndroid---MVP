@@ -1,8 +1,10 @@
 package br.com.compracombinada.asynctask;
 
 import android.app.ProgressDialog;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 
+import br.com.compracombinada.R;
 import br.com.compracombinada.fragment.ListaDetalheCompraColetiva;
 import br.com.compracombinada.model.Cotacao;
 import br.com.compracombinada.rest.CompraCobinadaREST;
@@ -19,7 +21,7 @@ public class AsyncTaskCompraColetivaAddCotacao extends AsyncTask<Object, Void, S
 
     @Override
     protected void onPreExecute() {
-        progressDialog = ProgressDialog.show(ctx.getActivity(), "Compra Combinada", "Adicionando Cotação...", true);
+        progressDialog = ProgressDialog.show(ctx.getActivity(), ctx.getResources().getString(R.string.app_name), "Adicionando Cotação...", true);
     }
 
     @Override

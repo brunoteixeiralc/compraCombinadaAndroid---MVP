@@ -47,8 +47,6 @@ public class Listas extends android.support.v4.app.Fragment {
 
         msg = (TextView) view.findViewById(R.id.msg);
 
-        new AsyncTaskCompraColetivaListas(Listas.this).execute(usuario.getId());
-
         listView = (ListView) view.findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -65,6 +63,13 @@ public class Listas extends android.support.v4.app.Fragment {
                         .commit();
             }
         });
+
+        if(listas == null){
+            new AsyncTaskCompraColetivaListas(Listas.this).execute(usuario.getId());
+        }else{
+            listAdapterLista = new ListAdapterLista(Listas.this.getActivity(), listas);
+            listView.setAdapter(listAdapterLista);
+        }
 
         return view;
     }
@@ -105,7 +110,7 @@ public class Listas extends android.support.v4.app.Fragment {
 
     @Override
     public void onAttach(Activity activity) {
-        ((MainActivity) activity).onSectionAttached(4);
+        ((MainActivity) activity).onSectionAttached(7);
         super.onAttach(activity);
     }
 }

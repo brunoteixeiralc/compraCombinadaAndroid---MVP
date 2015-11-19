@@ -20,7 +20,7 @@
         android:layout_height="fill_parent"
         android:id="@+id/msg"
         android:gravity="center"
-        android:text="Esse evento já foi finalizado"
+        android:text="Espere alguns minutos para seus convidados também acabarem suas cotações."
         android:visibility="gone"
         android:textSize="20dp" />
 

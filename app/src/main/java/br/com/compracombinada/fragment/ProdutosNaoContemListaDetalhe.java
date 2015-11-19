@@ -47,8 +47,6 @@ public class ProdutosNaoContemListaDetalhe extends Fragment {
 
         setHasOptionsMenu(true);
 
-        new AsyncTaskCompraColetivaListaNaoContemProdutos(ProdutosNaoContemListaDetalhe.this).execute(getArguments().getInt("eventoId"));
-
         listView = (ListView) view.findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -66,6 +64,22 @@ public class ProdutosNaoContemListaDetalhe extends Fragment {
 
             }
         });
+
+        if(produtosQueFaltam == null){
+            new AsyncTaskCompraColetivaListaNaoContemProdutos(ProdutosNaoContemListaDetalhe.this).execute(getArguments().getInt("eventoId"));
+        }else{
+            listAdapterProdutos = new ListAdapterProdutosCompraColetiva(this, produtosQueFaltam);
+            listView.setAdapter(listAdapterProdutos);
+            Collections.sort(produtosQueFaltam, new Comparator() {
+
+                @Override
+                public int compare(Object o1, Object o2) {
+                    Produtos p1 = (Produtos) o1;
+                    Produtos p2 = (Produtos) o2;
+                    return p1.getProduto().getNome().compareToIgnoreCase(p2.getProduto().getNome());
+                }
+            });
+        }
 
     return view;
 

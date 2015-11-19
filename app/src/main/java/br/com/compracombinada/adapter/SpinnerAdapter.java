@@ -52,7 +52,7 @@ public class SpinnerAdapter extends BaseAdapter implements android.widget.Spinne
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		TextView textView = new TextView(context);
-		textView.setTextSize(15);
+		textView.setTextSize(12);
 		textView.setPadding(10, 10, 10, 10);
 
 		

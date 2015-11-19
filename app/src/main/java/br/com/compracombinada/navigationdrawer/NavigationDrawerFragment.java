@@ -107,14 +107,14 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.sobre_mim),
                         getString(R.string.eventos),
                         getString(R.string.evento_convidado),
-                        getString(R.string.listas),
-                        getString(R.string.amizades),
-                        getString(R.string.cotacoes),
                         getString(R.string.finalizar),
-                        //getString(R.string.configuracao),
-                        getString(R.string.sobre),
-                        getString(R.string.melhorias),
                         getString(R.string.nao_contem),
+                        getString(R.string.cotacoes),
+                        getString(R.string.listas),
+                        //getString(R.string.configuracao),
+                        getString(R.string.amizades),
+                        getString(R.string.melhorias),
+                        getString(R.string.sobre),
                         getString(R.string.sair)
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);

@@ -34,7 +34,7 @@ public class Sobre extends android.support.v4.app.Fragment {
 
     @Override
     public void onAttach(Activity activity) {
-        ((MainActivity) activity).onSectionAttached(8);
+        ((MainActivity) activity).onSectionAttached(10);
         super.onAttach(activity);
     }
 

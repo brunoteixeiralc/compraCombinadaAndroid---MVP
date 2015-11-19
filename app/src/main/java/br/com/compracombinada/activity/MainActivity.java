@@ -97,28 +97,28 @@ public class MainActivity extends ActionBarActivity
                 fragment = new EventosConvidados();
                 break;
             case 3:
-                fragment = new Listas();
+                fragment = new FinalizarEvento();
                 break;
             case 4:
-                fragment = new Amizades();
+                fragment = new ProdutosNaoContem();
                 break;
             case 5:
                 fragment = new Cotacoes();
                 break;
             case 6:
-                fragment = new FinalizarEvento();
+                fragment = new Listas();
                 break;
 //            case 7:
 //                fragment = new Configuracao();
 //                break;
             case 7:
-                fragment = new Sobre();
+                fragment = new Amizades();
                 break;
             case 8:
                 fragment = new Solicitacoes();
                 break;
             case 9:
-                fragment = new ProdutosNaoContem();
+                fragment = new Sobre();
                 break;
             case 10:
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
@@ -149,28 +149,28 @@ public class MainActivity extends ActionBarActivity
                 mTitle = getString(R.string.evento_convidado);
                 break;
             case 4:
-                mTitle = getString(R.string.listas);
+                mTitle = getString(R.string.finalizar);
                 break;
             case 5:
-                mTitle = getString(R.string.amizades);
+                mTitle = getString(R.string.nao_contem);
                 break;
             case 6:
                 mTitle = getString(R.string.cotacoes);
                 break;
             case 7:
-                mTitle = getString(R.string.finalizar);
+                mTitle = getString(R.string.listas);
                 break;
 //            case 8:
 //                mTitle = getString(R.string.configuracao);
 //                break;
             case 8:
-                mTitle = getString(R.string.sobre);
+                mTitle = getString(R.string.amizades);
                 break;
             case 9:
                 mTitle = getString(R.string.melhorias);
                 break;
             case 10:
-                mTitle = getString(R.string.nao_contem);
+                mTitle = getString(R.string.sobre);
                 break;
             case 11:
                 mTitle = getString(R.string.sair);

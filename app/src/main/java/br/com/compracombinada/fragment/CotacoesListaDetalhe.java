@@ -248,18 +248,31 @@ public class CotacoesListaDetalhe extends Fragment {
 
             case R.id.add:
 
+                //BUSCAR PRODUTO CODE
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("listProdutosCompraColetiva", (ArrayList<Produtos>) listProdutos);
+//                bundle.putString("fragment", "cotacoesListaDetalhe");
+//                bundle.putDouble("valorTotal", valorTotalDouble);
+//                bundle.putSerializable("cotacao", cotacao);
+//                fragment = new BuscarProdutos();
+//                fragment.setArguments(bundle);
+//                FragmentManager fragmentManager = getFragmentManager();
+//                fragmentManager.beginTransaction()
+//                        .replace(R.id.container, fragment).addToBackStack(null)
+//                        .commit();
+
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("listProdutosCompraColetiva", (ArrayList<Produtos>) listProdutos);
                 bundle.putString("fragment", "cotacoesListaDetalhe");
                 bundle.putDouble("valorTotal", valorTotalDouble);
+                bundle.putSerializable("listaCotacao", cotacao.getListaCotacao());
                 bundle.putSerializable("cotacao", cotacao);
-                fragment = new BuscarProdutos();
+                fragment = new AdicionarProduto();
                 fragment.setArguments(bundle);
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, fragment).addToBackStack(null)
                         .commit();
-
 
         }
 

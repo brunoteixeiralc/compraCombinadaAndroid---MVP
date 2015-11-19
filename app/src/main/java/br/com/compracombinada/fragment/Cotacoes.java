@@ -51,8 +51,6 @@ public class Cotacoes extends Fragment {
 
         msg = (TextView) view.findViewById(R.id.msg);
 
-       new AsyncTaskCompraColetivaPesquisaCotacoes(Cotacoes.this).execute(usuario.getId());
-
         listView = (ListView) view.findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -80,6 +78,13 @@ public class Cotacoes extends Fragment {
                 new AsyncTaskCompraColetivaPesquisaCotacoes(Cotacoes.this).execute(usuario.getId());
             }
         });
+
+        if(cotacoesUsuario == null) {
+            new AsyncTaskCompraColetivaPesquisaCotacoes(Cotacoes.this).execute(usuario.getId());
+        }else{
+            listAdapterCotacoesUsuario = new ListAdapterCotacoesUsuario(this.getActivity(), cotacoesUsuario);
+            listView.setAdapter(listAdapterCotacoesUsuario);
+        }
 
         return view;
     }

@@ -31,6 +31,8 @@ public class Produto implements Serializable {
 
     private boolean ativo;
 
+    private List<Object> produtoPreferencias;
+
     public String getFoto() {
         return foto;
     }
@@ -111,11 +113,20 @@ public class Produto implements Serializable {
         this.divisao = divisao;
     }
 
+
     public int getPreferencia() {
         return preferencia;
     }
 
     public void setPreferencia(int preferencia) {
         this.preferencia = preferencia;
+    }
+
+    public List<Object> getProdutoPreferencias() {
+        return produtoPreferencias;
+    }
+
+    public void setProdutoPreferencias(List<Object> produtoPreferencias) {
+        this.produtoPreferencias = produtoPreferencias;
     }
 }

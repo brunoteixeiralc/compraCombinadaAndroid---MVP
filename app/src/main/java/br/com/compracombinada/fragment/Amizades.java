@@ -47,7 +47,7 @@ public class Amizades extends android.support.v4.app.Fragment {
 
         msg = (TextView) view.findViewById(R.id.msg);
 
-        new AsyncTaskCompraColetivaAmizades(Amizades.this).execute(usuario.getId());
+
 
         listView = (ListView) view.findViewById(R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,6 +66,13 @@ public class Amizades extends android.support.v4.app.Fragment {
 
             }
         });
+
+        if(amizades == null){
+            new AsyncTaskCompraColetivaAmizades(Amizades.this).execute(usuario.getId());
+        }else{
+            listAdapterAmizade = new ListAdapterAmizade(Amizades.this.getActivity(), amizades);
+            listView.setAdapter(listAdapterAmizade);
+        }
 
         return view;
     }
@@ -104,7 +111,7 @@ public class Amizades extends android.support.v4.app.Fragment {
 
     @Override
     public void onAttach(Activity activity) {
-        ((MainActivity) activity).onSectionAttached(5);
+        ((MainActivity) activity).onSectionAttached(8);
         super.onAttach(activity);
     }
 }

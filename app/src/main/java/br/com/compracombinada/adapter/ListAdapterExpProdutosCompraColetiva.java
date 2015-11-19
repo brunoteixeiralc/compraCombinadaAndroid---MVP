@@ -187,6 +187,7 @@ public class ListAdapterExpProdutosCompraColetiva extends BaseExpandableListAdap
                     produtos.getProduto().getNome() + " *");
 
             if (produtos.getProdutoTempPref() != null) {
+                holder.naoContem.setVisibility(view.GONE);
                 holder.produtoPreferencia.setVisibility(View.VISIBLE);
                 holder.produtoPreferencia.setText("Produto escolhido: " + produtos.getProdutoTempPref().getNome());
             }
@@ -203,6 +204,7 @@ public class ListAdapterExpProdutosCompraColetiva extends BaseExpandableListAdap
 
             holder.naoContem.setVisibility(view.VISIBLE);
             holder.produtoPreco.setVisibility(view.GONE);
+            holder.produtoPreferencia.setVisibility(View.GONE);
 
             produtos.setNaoContem(true);
             produtos.setPreco(null);

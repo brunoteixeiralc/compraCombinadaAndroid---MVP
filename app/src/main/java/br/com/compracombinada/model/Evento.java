@@ -25,6 +25,8 @@ public class Evento implements Serializable {
 
     private Usuario usuario;
 
+    private boolean acabouCotacao;
+
 
     public Integer getId() {
         return id;
@@ -88,5 +90,13 @@ public class Evento implements Serializable {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public boolean isAcabouCotacao() {
+        return acabouCotacao;
+    }
+
+    public void setAcabouCotacao(boolean acabouCotacao) {
+        this.acabouCotacao = acabouCotacao;
     }
 }

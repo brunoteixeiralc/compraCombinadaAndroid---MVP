@@ -3,6 +3,7 @@ package br.com.compracombinada.asynctask;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
+import br.com.compracombinada.R;
 import br.com.compracombinada.model.Produtos;
 import br.com.compracombinada.rest.CompraCobinadaREST;
 import br.com.compracombinada.dialog.DialogFragmentGramas;
@@ -19,7 +20,7 @@ public class AsyncTaskCompraColetivaGramas extends AsyncTask<Object, Void, Strin
 
     @Override
     protected void onPreExecute() {
-        progressDialog = ProgressDialog.show(ctx.getActivity(), "Compra Combinada", "Atualizando a quantidade de gramas...", true);
+        progressDialog = ProgressDialog.show(ctx.getActivity(), ctx.getResources().getString(R.string.app_name), "Atualizando a quantidade de gramas...", true);
     }
 
     @Override

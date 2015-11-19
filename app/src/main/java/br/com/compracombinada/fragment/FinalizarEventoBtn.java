@@ -34,7 +34,7 @@ public class FinalizarEventoBtn extends android.support.v4.app.Fragment {
         btnFinalizar = (Button) view.findViewById(R.id.btnFinalizar);
         msg = (TextView) view.findViewById(R.id.msg);
 
-        if (evento.isTemCotacao()) {
+        if (!evento.isAcabouCotacao()) {
 
             btnFinalizar.setVisibility(View.GONE);
             msg.setVisibility(View.VISIBLE);

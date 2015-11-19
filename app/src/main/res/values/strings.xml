@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ComboBox</string>
+    <string name="app_name">COMBOBOX</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
@@ -37,5 +37,11 @@
     <string name="cadastrar">Cadastre-se</string>
     <string name="sucesso_merge">Após a finalização do evento, os produtos mais baratos irão aparecer em suas cotações!</string>
     <string name="sucesso_finalizar_merge">Evento finalizado com sucesso!</string>
+
+    <string name="txt_cadastro">
+  <![CDATA[
+      <p><b>No momento o cadastro para acesso ao COMBOBOX está sendo feito somente através do site <a href="http://www.combobox.com.br/sis">http://www.combobox.com.br/sis</a></b></p>
+    ]]>
+    </string>
 
 </resources>
