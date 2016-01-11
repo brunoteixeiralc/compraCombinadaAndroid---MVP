@@ -85,14 +85,13 @@ public class DialogFragmentCotacao extends android.support.v4.app.DialogFragment
 
              if(produtos.getProduto().getProdutoPreferencias() != null){
 
-                SpinnerAdapter spinnerAdpPreferencia = new SpinnerAdapter(produtos.getProduto().getProdutoPreferencias(),DialogFragmentCotacao.this.getActivity(), SpinnerEnum.PREFERENCIA);
-                spinnerPreferencia.setAdapter(spinnerAdpPreferencia);
-
-
-            }else{
-
-                new AsyncTaskCompraColetivaPreferencias(DialogFragmentCotacao.this).execute(produtos.getProduto().getId(),usuarioDonoEventoId);
+                produtos.getProduto().setProdutoPreferencias(null);
+//                SpinnerAdapter spinnerAdpPreferencia = new SpinnerAdapter(produtos.getProduto().getProdutoPreferencias(),DialogFragmentCotacao.this.getActivity(), SpinnerEnum.PREFERENCIA);
+//                spinnerPreferencia.setAdapter(spinnerAdpPreferencia);
             }
+
+            new AsyncTaskCompraColetivaPreferencias(DialogFragmentCotacao.this).execute(produtos.getProduto().getId(),usuarioDonoEventoId);
+
 
 
 

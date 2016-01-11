@@ -30,21 +30,21 @@
                 android:textSize="30sp"
                 android:text="Bruno T L Corrêa"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/sexo"
-                android:layout_toRightOf="@+id/foto"
-                android:layout_below="@+id/nome"
-                android:text="Masculino"
-                android:layout_marginTop="5dp"/>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/sexo"-->
+                <!--android:layout_toRightOf="@+id/foto"-->
+                <!--android:layout_below="@+id/nome"-->
+                <!--android:text="Masculino"-->
+                <!--android:layout_marginTop="5dp"/>-->
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dataNascimento"
                 android:layout_toRightOf="@+id/foto"
-                android:layout_below="@+id/sexo"
+                android:layout_below="@+id/nome"
                 android:text="20/07/1985"
                 android:layout_marginTop="5dp"/>
 

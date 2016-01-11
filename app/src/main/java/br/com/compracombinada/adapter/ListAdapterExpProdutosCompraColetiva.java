@@ -181,7 +181,7 @@ public class ListAdapterExpProdutosCompraColetiva extends BaseExpandableListAdap
 
     private void verificaPreferencia(ViewHolder holder,Produtos produtos){
 
-        if (produtos.getProduto().getPreferencia() == 1){
+        if (produtos.getProduto().getPreferencia() == 1 && !produtos.isNaoContem()){
 
             produtos.getProduto().setNome(produtos.getProduto().getNome().contains("*") ? produtos.getProduto().getNome() :
                     produtos.getProduto().getNome() + " *");

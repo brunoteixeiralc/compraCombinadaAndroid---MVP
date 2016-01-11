@@ -24,7 +24,7 @@ public class CardViewSobreMimAdapter extends RecyclerView.Adapter<CardViewSobreM
 		TextView nome;
 		TextView endereco;
 		TextView dtNascimento;
-		TextView sexo;
+		//TextView sexo;
         ImageView foto;
 
 
@@ -34,7 +34,7 @@ public class CardViewSobreMimAdapter extends RecyclerView.Adapter<CardViewSobreM
 			nome = (TextView) itemView.findViewById(R.id.nome);
 			endereco = (TextView) itemView.findViewById(R.id.endereco);
 			dtNascimento = (TextView) itemView.findViewById(R.id.dataNascimento);
-			sexo = (TextView) itemView.findViewById(R.id.sexo);
+			//sexo = (TextView) itemView.findViewById(R.id.sexo);
             foto = (ImageView) itemView.findViewById(R.id.foto);
 		}
 	}
@@ -57,13 +57,13 @@ public class CardViewSobreMimAdapter extends RecyclerView.Adapter<CardViewSobreM
 		holder.nome.setText(usuario.getNome().toString());
 		holder.endereco.setText(usuario.getEndereco().toString());
 		holder.dtNascimento.setText(Utils.formatData(usuario.getDataNascimento().toString()));
-		if(usuario.getSexo().equalsIgnoreCase("M")){
-			holder.sexo.setText("Masculino");
-		}else{
-			holder.sexo.setText("Feminino");
-		}
+//		if(usuario.getSexo().equalsIgnoreCase("M")){
+//			holder.sexo.setText("Masculino");
+//		}else{
+//			holder.sexo.setText("Feminino");
+//		}
 
-        if(usuario.getFoto() != null){
+        if(usuario.getFoto() != null && !usuario.getFoto().isEmpty()){
             holder.foto.setImageBitmap(convertBase64Image(usuario.getFoto()));
         }
 
