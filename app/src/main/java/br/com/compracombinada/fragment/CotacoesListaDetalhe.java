@@ -82,7 +82,7 @@ public class CotacoesListaDetalhe extends Fragment {
         if(cotacao != null && listProdutos.size() == 0) {
 
             for (Produtos produto : cotacao.getListaCotacao().getProdutos()) {
-                if (Float.valueOf(produto.getPreco()) > 0) {
+                if (produto.getProduto() != null && Float.valueOf(produto.getPreco()) > 0) {
                     for (Lista l : cotacao.getEvento().getListas()) {
                         for (Produtos p : l.getProdutos()) {
                             if (p.getProduto().getNome().equalsIgnoreCase(produto.getProduto().getNome())) {
